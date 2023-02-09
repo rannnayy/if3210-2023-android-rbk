@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardViewLoc"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="25dp"
+    app:cardElevation="3dp"
+    android:layout_margin="15dp"
+    android:foreground="?selectableItemBackground"
+    app:cardBackgroundColor="@color/colorPrimaryDark">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="15dp" >
+
+        <TextView
+            android:id="@+id/item_title_loc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="CARD"
+            android:textSize="20sp"
+            android:textColor="@color/colorAccent" />
+        <TextView
+            android:id="@+id/item_desc_loc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="hahahahahahahahahahahahahahaahahahahaahahahahahahahahahhaha"
+            android:textSize="16sp"
+            android:textColor="@color/colorAccent" />
+        <TextView
+            android:id="@+id/item_telp_loc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="(022) 2500935"
+            android:textSize="16sp"
+            android:textColor="@color/colorAccent" />
+        <Button
+            android:id="@+id/item_bt_loc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Maps"
+            android:textSize="16sp"
+            android:background="@drawable/rounded_button_shape"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:focusable="true" />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
