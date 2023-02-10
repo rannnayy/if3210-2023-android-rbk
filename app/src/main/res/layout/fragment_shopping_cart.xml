@@ -7,10 +7,11 @@
 
     <include layout="@layout/majika_toolbar"/>
 
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/CartRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/halo"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical"
+        android:textColor="@color/black"
         android:layout_marginTop="?attr/actionBarSize" />
-
 </FrameLayout>

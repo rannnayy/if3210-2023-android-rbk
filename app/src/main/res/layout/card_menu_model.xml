@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardViewMenu"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="25dp"
+    app:cardElevation="3dp"
+    android:layout_margin="15dp"
+    android:foreground="?selectableItemBackground"
+    app:cardBackgroundColor="@color/colorPrimaryDark">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp">
+
+        <TextView
+            android:id="@+id/item_name_menu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Makanan 1"
+            android:textColor="@color/colorAccent"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toStartOf="@+id/item_bt_menu_min"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/item_price_menu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="50000"
+            android:textColor="@color/colorAccent"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@+id/item_name_menu"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/item_bt_menu_min"/>
+
+        <TextView
+            android:id="@+id/item_num_sold_menu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="1"
+            android:textColor="@color/colorAccent"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@+id/item_price_menu"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/item_bt_menu_min"/>
+
+        <TextView
+            android:id="@+id/item_desc_menu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Makanan ini wenak sekali"
+            android:textColor="@color/colorAccent"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@+id/item_num_sold_menu"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/item_bt_menu_min" />
+
+        <Button
+            android:id="@+id/item_bt_menu_plus"
+            android:padding="0dp"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorPrimary"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="+"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/item_desc_menu"
+            app:layout_constraintTop_toTopOf="@+id/item_name_menu"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/item_num_buy_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textColor="@color/colorAccent"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/item_desc_menu"
+            app:layout_constraintTop_toTopOf="@+id/item_name_menu"
+            app:layout_constraintEnd_toStartOf="@+id/item_bt_menu_plus" />
+
+        <Button
+            android:id="@+id/item_bt_menu_min"
+            android:padding="0dp"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorPrimary"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="-"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/item_desc_menu"
+            app:layout_constraintTop_toTopOf="@+id/item_name_menu"
+            app:layout_constraintEnd_toStartOf="@+id/item_num_buy_menu" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

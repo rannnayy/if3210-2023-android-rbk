@@ -7,11 +7,11 @@
 
     <include layout="@layout/majika_toolbar"/>
 
-    <TextView
-        android:id="@+id/textViewFoodBank"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/FoodBankRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="FOODBANK"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical"
+        android:textColor="@color/black"
         android:layout_marginTop="?attr/actionBarSize" />
-
 </FrameLayout>
