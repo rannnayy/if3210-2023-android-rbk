@@ -5,10 +5,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -19,6 +16,7 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -47,7 +45,7 @@ class CameraFragment : Fragment() {
     private var imageCapture: ImageCapture? = null
     private var imageAnalyzer: ImageAnalysis? = null
     private var camera: Camera? = null
-    private var myViewFinder: PreviewView? = null
+    private lateinit var myViewFinder: PreviewView
 
     private lateinit var safeContext: Context
 
@@ -171,7 +169,7 @@ class CameraFragment : Fragment() {
                 //ASLI
 //                camera = cameraProvider.bindToLifecycle(this, cameraSelector, imageAnalyzer, preview, imageCapture)
                 //ANALYSER DI KOMEN
-                camera = cameraProvider.bindToLifecycle(this, cameraSelector, imageAnalyzer, preview, imageCapture)
+                camera = cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture)
                 preview?.setSurfaceProvider(myViewFinder?.createSurfaceProvider())
             } catch (exc: Exception) {
                 Log.e(TAG, "Use case binding failed", exc)
