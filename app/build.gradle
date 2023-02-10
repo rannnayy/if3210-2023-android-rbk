@@ -42,6 +42,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.0'
     implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+<<<<<<< HEAD
     def camerax_version = "1.0.0-beta06"
 // CameraX core library using camera2 implementation
     implementation "androidx.camera:camera-camera2:$camerax_version"
@@ -49,6 +50,9 @@ dependencies {
     implementation "androidx.camera:camera-lifecycle:$camerax_version"
 // CameraX View class
     implementation "androidx.camera:camera-view:1.0.0-alpha13"
+=======
+    implementation 'androidx.navigation:navigation-runtime-ktx:2.5.3'
+>>>>>>> 3123f99f9cc4e9091608488d3028b88c970780e7
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
