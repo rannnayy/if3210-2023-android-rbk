@@ -42,15 +42,39 @@
 
         </RelativeLayout>
 
-        <Button
-            android:id="@+id/take_picture_button"
+        <ImageView
+            android:id="@+id/captureButton"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/baseline_camera_24"
+            android:backgroundTint="@color/colorPrimaryDark"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cameraView"
+            app:layout_constraintBottom_toBottomOf="parent">
+        </ImageView>
+
+        <TextView
+            android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="162dp"
-            android:layout_marginTop="48dp"
-            android:text="Button"
+            android:text="Capture"
+            android:textColor="@color/colorPrimaryDark"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cameraView" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/captureButton"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <ImageView
+            android:id="@+id/changeCamera"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:src="@drawable/flip_camera"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/captureButton"
+            app:layout_constraintTop_toBottomOf="@id/cameraView"></ImageView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

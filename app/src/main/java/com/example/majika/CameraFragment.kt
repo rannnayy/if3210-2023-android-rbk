@@ -52,6 +52,7 @@ class CameraFragment : Fragment() {
     private var imageCapture: ImageCapture? = null
     private var imageAnalyzer: ImageAnalysis? = null
     private var camera: Camera? = null
+    private var currentCamera: Int = CameraSelector.LENS_FACING_FRONT
     private lateinit var myViewFinder: PreviewView
 
     private lateinit var safeContext: Context
@@ -133,9 +134,11 @@ class CameraFragment : Fragment() {
         }
 
         // Setup the listener for take photo button
-        val cameraCaptureButton: Button = view.findViewById(R.id.take_picture_button)
+        val cameraCaptureButton: ImageView = view.findViewById(R.id.captureButton)
         cameraCaptureButton.setOnClickListener { takePhoto() }
 
+        val changeCameraButton: ImageView = view.findViewById(R.id.changeCamera)
+        changeCameraButton.setOnClickListener { changeCamera() }
 
         outputDirectory = getOutputDirectory()
 
@@ -166,7 +169,7 @@ class CameraFragment : Fragment() {
 //                })
 //            }
             // Select back camera
-            val cameraSelector = CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_BACK).build()
+            val cameraSelector = CameraSelector.Builder().requireLensFacing(currentCamera).build()
 
             try {
                 // Unbind use cases before rebinding
@@ -215,6 +218,8 @@ class CameraFragment : Fragment() {
             val savedUri = Uri.fromFile(imageFile)
             val msg = "Photo capture succeeded: $savedUri"
             Toast.makeText(safeContext, msg, Toast.LENGTH_SHORT).show()
+            val changeText: TextView = requireView().findViewById(R.id.textView)
+            changeText.setText("Take Again?")
             Log.d(TAG, msg)
         } catch (e: Throwable) {
             // Several error may come out with file handling or DOM
@@ -228,6 +233,15 @@ class CameraFragment : Fragment() {
         canvas.drawBitmap(image, Matrix(), null)
         canvas.drawBitmap(Twibbon, Matrix(), null)
         return bmOverlay
+    }
+
+    fun changeCamera(){
+        currentCamera = if (currentCamera == CameraSelector.LENS_FACING_BACK) {
+            CameraSelector.LENS_FACING_FRONT
+        } else {
+            CameraSelector.LENS_FACING_BACK
+        }
+        startCamera()
     }
 
     override fun onPause() {
