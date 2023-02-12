@@ -13,15 +13,34 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.camera.view.PreviewView
-            android:id="@+id/viewFinder"
+        <RelativeLayout
+            android:id="@+id/cameraView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="56dp"
             app:layout_constraintDimensionRatio="3:4"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:scaleType="fitCenter"/>/>
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.camera.view.PreviewView
+                android:id="@+id/viewFinder"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="0dp"
+                app:layout_constraintDimensionRatio="3:4"
+                app:scaleType="fitCenter">
+
+            </androidx.camera.view.PreviewView>
+
+            <ImageView
+                android:id="@+id/twibbon"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/logomajika"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </RelativeLayout>
 
         <Button
             android:id="@+id/take_picture_button"
@@ -31,7 +50,7 @@
             android:layout_marginTop="48dp"
             android:text="Button"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/viewFinder" />
+            app:layout_constraintTop_toBottomOf="@id/cameraView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

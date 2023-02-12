@@ -2,11 +2,16 @@ package com.example.majika
 
 import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Matrix
 import android.net.Uri
 import android.os.Bundle
+import android.text.format.DateFormat
 import android.util.Log
 import android.view.*
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -16,12 +21,14 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.drawToBitmap
 import androidx.fragment.app.Fragment
 import java.io.File
-import java.text.SimpleDateFormat
+import java.io.FileOutputStream
 import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -93,7 +100,7 @@ class CameraFragment : Fragment() {
         val TAG = "CameraXFragment"
         private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
         internal const val REQUEST_CODE_PERMISSIONS = 10
-        private val REQUIRED_PERMISSIONS = arrayOf(android.Manifest.permission.CAMERA)
+        private val REQUIRED_PERMISSIONS = arrayOf(android.Manifest.permission.CAMERA, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
         var isOffline = false // prevent app crash when goes offline
 
         // TODO: Rename and change types and number of parameters
@@ -180,29 +187,47 @@ class CameraFragment : Fragment() {
     }
 
     private fun takePhoto() {
-        // Get a stable reference of the modifiable image capture use case
-        val imageCapture = imageCapture ?: return
+        val now = Date()
+        DateFormat.format("yyyy-MM-dd_hh:mm:ss", now)
 
-        // Create timestamped output file to hold the image
-        val photoFile = File(outputDirectory, SimpleDateFormat(FILENAME_FORMAT, Locale.US).format(System.currentTimeMillis()) + ".jpg")
+        try {
+            // image naming and path  to include sd card  appending name you choose for file
+            val mPath: String =
+                outputDirectory.toString() + "/" + now + ".jpg"
 
-        // Create output options object which contains file + metadata
-        val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
-
-        // Setup image capture listener which is triggered after photo has
-        // been taken
-        imageCapture.takePicture(outputOptions, ContextCompat.getMainExecutor(safeContext), object : ImageCapture.OnImageSavedCallback {
-            override fun onError(exc: ImageCaptureException) {
-                Log.e(TAG, "Photo capture failed: ${exc.message}", exc)
+            // create bitmap screen capture
+            val v1 :PreviewView = myViewFinder
+            val twibbon: ImageView =  view?.findViewById(R.id.twibbon) ?: return
+            v1.isDrawingCacheEnabled = true
+            val bitmap1 = v1.bitmap
+            val bitmap2 = twibbon.drawToBitmap()
+            val bitmap = bitmap1?.let { overlayTwibbon(it, bitmap2) }
+            v1.isDrawingCacheEnabled = false
+            val imageFile = File(mPath)
+            val outputStream = FileOutputStream(imageFile)
+            val quality = 100
+            if (bitmap != null) {
+                bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream)
             }
+            outputStream.flush()
+            outputStream.close()
+//            openScreenshot(imageFile)
+            val savedUri = Uri.fromFile(imageFile)
+            val msg = "Photo capture succeeded: $savedUri"
+            Toast.makeText(safeContext, msg, Toast.LENGTH_SHORT).show()
+            Log.d(TAG, msg)
+        } catch (e: Throwable) {
+            // Several error may come out with file handling or DOM
+            e.printStackTrace()
+        }
+    }
 
-            override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-                val savedUri = Uri.fromFile(photoFile)
-                val msg = "Photo capture succeeded: $savedUri"
-                Toast.makeText(safeContext, msg, Toast.LENGTH_SHORT).show()
-                Log.d(TAG, msg)
-            }
-        })
+    fun overlayTwibbon(image: Bitmap, Twibbon: Bitmap): Bitmap {
+        val bmOverlay = Bitmap.createBitmap(image.getWidth(), image.getHeight(), image.getConfig())
+        val canvas = Canvas(bmOverlay)
+        canvas.drawBitmap(image, Matrix(), null)
+        canvas.drawBitmap(Twibbon, Matrix(), null)
+        return bmOverlay
     }
 
     override fun onPause() {
