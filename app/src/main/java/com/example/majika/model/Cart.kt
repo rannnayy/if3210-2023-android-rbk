@@ -1,3 +1,5 @@
 package com.example.majika.model
 
-data class Cart(val nameCart: String, val priceCart: Number, val numBuyCart: Number)
+open class CartRecyclerViewItem
+class Cart(val nameCart: String, val priceCart: Int, val numBuyCart: Int) : CartRecyclerViewItem()
+class Price(val price: Number) : CartRecyclerViewItem()

@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.majika.adapter.CartItemAdapter
 import com.example.majika.data.CartDatasource
-import com.example.majika.model.Cart
+import com.example.majika.model.CartRecyclerViewItem
 
 class ShoppingCartFragment : Fragment() {
     private lateinit var toolbarMajika: Toolbar
@@ -20,7 +20,7 @@ class ShoppingCartFragment : Fragment() {
 
     private lateinit var adapter: CartItemAdapter
     private lateinit var recyclerView: RecyclerView
-    private lateinit var cartsList: List<Cart>
+    private lateinit var cartsList: List<CartRecyclerViewItem>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +52,7 @@ class ShoppingCartFragment : Fragment() {
         recyclerView = view.findViewById(R.id.CartRecyclerView)
         recyclerView.layoutManager = layoutManager
         recyclerView.setHasFixedSize(true)
-        adapter = CartItemAdapter(cartsList)
+        adapter = CartItemAdapter(view.context, cartsList)
         recyclerView.adapter = adapter
     }
 }
