@@ -4,13 +4,14 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Matrix
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.text.format.DateFormat
 import android.util.Log
 import android.view.*
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -218,6 +219,13 @@ class CameraFragment : Fragment() {
             val savedUri = Uri.fromFile(imageFile)
             val msg = "Photo capture succeeded: $savedUri"
             Toast.makeText(safeContext, msg, Toast.LENGTH_SHORT).show()
+            val shownBitmap = bitmap?.let { addWhiteBorder(it, 10) }
+            val shownImage = view?.findViewById<ImageView>(R.id.twibbonresult)
+            shownImage?.setImageBitmap(shownBitmap)
+            if (shownImage != null) {
+                shownImage.visibility = View.VISIBLE
+                Handler().postDelayed(Runnable { shownImage.visibility = View.GONE }, 2000)
+            }
             val changeText: TextView = requireView().findViewById(R.id.textView)
             changeText.setText("Take Again?")
             Log.d(TAG, msg)
@@ -233,6 +241,15 @@ class CameraFragment : Fragment() {
         canvas.drawBitmap(image, Matrix(), null)
         canvas.drawBitmap(Twibbon, Matrix(), null)
         return bmOverlay
+    }
+
+    private fun addWhiteBorder(bmp: Bitmap, borderSize: Int): Bitmap? {
+        val bmpWithBorder =
+            Bitmap.createBitmap(bmp.width + borderSize * 2, bmp.height + borderSize * 2, bmp.config)
+        val canvas = Canvas(bmpWithBorder)
+        canvas.drawColor(Color.WHITE)
+        canvas.drawBitmap(bmp, borderSize.toFloat(), borderSize.toFloat(), null)
+        return bmpWithBorder
     }
 
     fun changeCamera(){
