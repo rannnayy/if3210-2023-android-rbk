@@ -2,6 +2,7 @@ package com.example.majika
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
@@ -9,7 +10,11 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import androidx.navigation.ui.NavigationUI.setupWithNavController
+import com.example.majika.retrofit.BranchApi
+import com.example.majika.retrofit.RetrofitClient
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
@@ -35,5 +40,14 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.navController
 
         setupWithNavController(bottomNavigationView, navController)
+
+        val quotesApi = RetrofitClient.getInstance().create(BranchApi::class.java)
+
+        GlobalScope.launch {
+            val result = quotesApi.getBranches()
+            if (result != null){
+                Log.d("HASIL: ", result.body()?.data.toString())
+            }
+        }
     }
 }

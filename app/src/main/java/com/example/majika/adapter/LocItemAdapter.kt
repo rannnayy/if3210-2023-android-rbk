@@ -1,5 +1,7 @@
 package com.example.majika.adapter
 
+import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,6 +9,7 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.majika.R
 import com.example.majika.model.Loc
@@ -35,6 +38,10 @@ class LocItemAdapter (private val locs: List<Loc>) : RecyclerView.Adapter<LocIte
         holder.locTelText.text = locs[position].locTel.toString()
         holder.buttonCard.setOnClickListener{v: View ->
             Toast.makeText(v.context, "Opening", Toast.LENGTH_SHORT).show()
+            val gmmIntentUri = Uri.parse("geo:37.7749,-122.4194")
+            val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+            mapIntent.setPackage("com.google.android.apps.maps")
+            v.context.startActivity(mapIntent)
         }
     }
 }
