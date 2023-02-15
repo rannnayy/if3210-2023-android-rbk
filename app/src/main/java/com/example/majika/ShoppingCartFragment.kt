@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -18,7 +19,6 @@ class ShoppingCartFragment : Fragment() {
     private lateinit var toolbarMajika: Toolbar
     private lateinit var toolbarMajikaText: TextView
 
-    private lateinit var adapter: CartItemAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var cartsList: List<CartRecyclerViewItem>
 
@@ -31,14 +31,7 @@ class ShoppingCartFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_shopping_cart, container, false)
-    }
-
-    companion object {
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        val view = inflater.inflate(R.layout.fragment_shopping_cart, container, false)
 
         toolbarMajika = view.findViewById(R.id.majikaToolbar)
         toolbarMajikaText = toolbarMajika.findViewById(R.id.majikaToolbarTitle)
@@ -52,7 +45,21 @@ class ShoppingCartFragment : Fragment() {
         recyclerView = view.findViewById(R.id.CartRecyclerView)
         recyclerView.layoutManager = layoutManager
         recyclerView.setHasFixedSize(true)
-        adapter = CartItemAdapter(view.context, cartsList)
-        recyclerView.adapter = adapter
+        recyclerView.adapter = CartItemAdapter(view.context, cartsList) {Int ->
+            val pay = PaymentFragment.newInstance(Int)
+            val transaction = fragmentManager?.beginTransaction()
+            transaction?.replace(R.id.mainContainer, pay)?.commit()
+        }
+
+        return view
+    }
+
+    companion object {
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+
     }
 }

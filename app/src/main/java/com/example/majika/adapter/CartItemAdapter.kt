@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.view.menu.MenuView.ItemView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.majika.R
@@ -15,7 +14,7 @@ import com.example.majika.model.Cart
 import com.example.majika.model.CartRecyclerViewItem
 import com.example.majika.model.Price
 
-class CartItemAdapter (private val context: Context, private val carts: List<CartRecyclerViewItem>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class CartItemAdapter(private val context: Context, private val carts: List<CartRecyclerViewItem>, private val onBtPayClicked: (Int) -> Int?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     companion object {
         const val VIEW_CART = 1
         const val VIEW_PRICE = 2
@@ -53,9 +52,6 @@ class CartItemAdapter (private val context: Context, private val carts: List<Car
         val priceBtToPay: Button = view.findViewById(R.id.price_bt_to_pay)
         fun bind(item: Price) {
             priceTotalText.text = item.price.toString()
-            priceBtToPay.setOnClickListener{v: View ->
-                Toast.makeText(v.context, "Paid "+item.price.toString(), Toast.LENGTH_SHORT).show()
-            }
         }
     }
 
@@ -78,6 +74,9 @@ class CartItemAdapter (private val context: Context, private val carts: List<Car
         }
         if (holder is PriceViewHolder && item is Price) {
             holder.bind(item)
+            holder.priceBtToPay.setOnClickListener{
+                onBtPayClicked(item.price as Int)
+            }
         }
     }
 }
