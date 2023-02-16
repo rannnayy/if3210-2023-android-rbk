@@ -43,14 +43,6 @@
                 app:layout_constraintDimensionRatio="3:4"
                 app:scaleType="fitCenter" />
 
-            <ImageView
-                android:id="@+id/qrCode"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/colorPrimary"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
         </RelativeLayout>
 
         <TextView
