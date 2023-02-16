@@ -1,6 +1,6 @@
 package com.example.majika.retrofit
 
-data class BranchResult(
+data class BranchResponse(
     val data: List<BranchData>
 )
 
