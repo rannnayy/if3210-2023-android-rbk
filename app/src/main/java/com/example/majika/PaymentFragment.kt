@@ -204,7 +204,7 @@ class PaymentFragment : Fragment() {
                             if(status == "SUCCESS"){
                                 Log.d("QR: ", status)
                                 cameraProvider.unbindAll()
-                                qrResult.setImageDrawable(ContextCompat.getDrawable(safeContext, R.drawable.berhasil))
+                                qrResult.setImageDrawable(ContextCompat.getDrawable(safeContext, R.drawable.berhasil_no_backgroud))
                                 qrResult.visibility = View.VISIBLE
                                 Handler().postDelayed({
 //                                    openCamera() TODO: REROUTE TO MENU
@@ -213,7 +213,7 @@ class PaymentFragment : Fragment() {
                             else{
                                 Log.d("QR: ", status)
                                 cameraProvider.unbindAll()
-                                qrResult.setImageDrawable(ContextCompat.getDrawable(safeContext, R.drawable.gagal))
+                                qrResult.setImageDrawable(ContextCompat.getDrawable(safeContext, R.drawable.gagal_no_backgroud))
                                 qrResult.visibility = View.VISIBLE
                                 Handler().postDelayed({
                                     openCamera()
