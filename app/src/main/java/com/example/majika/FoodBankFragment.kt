@@ -1,10 +1,13 @@
 package com.example.majika
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -12,16 +15,29 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.majika.adapter.MenuItemAdapter
 import com.example.majika.data.MenuDatasource
-import com.example.majika.model.Menu
+import com.example.majika.model.MenuRecyclerViewItem
+import com.example.majika.retrofit.MajikaAPI
+import com.example.majika.retrofit.MenuData
+import com.example.majika.retrofit.RetrofitClient
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.util.*
+import kotlin.collections.ArrayList
 
 class FoodBankFragment : Fragment() {
     private lateinit var toolbarMajika: Toolbar
     private lateinit var toolbarMajikaText: TextView
 
-    private lateinit var adapter: MenuItemAdapter
     private lateinit var recyclerView: RecyclerView
-    private lateinit var menusList: List<Menu>
+    private lateinit var menusList: List<MenuRecyclerViewItem>
+    private var menuds: MenuDatasource = MenuDatasource()
+    private lateinit var menusListName: List<String>
 
+    private lateinit var searchView: androidx.appcompat.widget.SearchView
+    private lateinit var searchedMenu: ArrayList<MenuRecyclerViewItem>
+    private lateinit var searchedMenuName: ArrayList<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,14 +48,7 @@ class FoodBankFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_food_bank, container, false)
-    }
-
-    companion object {
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        val view = inflater.inflate(R.layout.fragment_food_bank, container, false)
 
         toolbarMajika = view.findViewById(R.id.majikaToolbar)
         toolbarMajikaText = toolbarMajika.findViewById(R.id.majikaToolbarTitle)
@@ -48,12 +57,80 @@ class FoodBankFragment : Fragment() {
         (activity as AppCompatActivity).setSupportActionBar(toolbarMajika)
         (activity as AppCompatActivity).getSupportActionBar()?.setDisplayShowTitleEnabled(false)
 
-        menusList = MenuDatasource().loadList()
-        val layoutManager = LinearLayoutManager(context)
-        recyclerView = view.findViewById(R.id.FoodBankRecyclerView)
-        recyclerView.layoutManager = layoutManager
-        recyclerView.setHasFixedSize(true)
-        adapter = MenuItemAdapter(menusList)
-        recyclerView.adapter = adapter
+        searchView = view.findViewById(R.id.search)
+
+        val quotesApi = RetrofitClient.getInstance().create(MajikaAPI::class.java)
+
+        GlobalScope.launch {
+            val resultFood = quotesApi.getFood()
+            val resultDrink = quotesApi.getDrink()
+            if (resultFood != null && resultDrink != null){
+                Log.d("FOODS: ", resultFood.body()?.data.toString())
+                Log.d("DRINKS: ", resultDrink.body()?.data.toString())
+
+                menuds.fillList(listOf(MenuData("Makanan", "", "", 0, 0, "text")))
+                menuds.fillList(resultFood.body()?.data!!)
+                menuds.fillList(listOf(MenuData("Minuman", "", "", 0, 0, "text")))
+                menuds.fillList(resultDrink.body()?.data!!)
+            }
+            withContext(Dispatchers.Main) {
+                val layoutManager = LinearLayoutManager(context)
+                recyclerView = view.findViewById(R.id.FoodBankRecyclerView)
+                recyclerView.layoutManager = layoutManager
+                recyclerView.setHasFixedSize(true)
+
+                menusList = arrayListOf<MenuRecyclerViewItem>()
+                menusListName = arrayListOf<String>()
+                searchedMenu = arrayListOf<MenuRecyclerViewItem>()
+                searchedMenuName = arrayListOf<String>()
+                getData()
+
+                searchView.clearFocus()
+                searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
+                    androidx.appcompat.widget.SearchView.OnQueryTextListener {
+                    override fun onQueryTextSubmit(p0: String): Boolean {
+                        searchView.clearFocus()
+                        return true
+                    }
+
+                    override fun onQueryTextChange(p0: String): Boolean {
+                        searchedMenu.clear()
+                        searchedMenuName.clear()
+                        val searchText = p0!!.toLowerCase(Locale.getDefault())
+                        if (searchText.isNotEmpty()) {
+//                            println(searchText)
+                            for (i in (0..menusList.size-1)) {
+//                                println(menusListName)
+//                                println(menusListName[i] == "Makanan" || menusListName[i] == "Minuman")
+                                if ((menusListName[i] != "Makanan" || menusListName[i] != "Minuman") && menusListName[i].toLowerCase(Locale.getDefault()).contains(searchText)) {
+//                                    println("CHOSEN ========= "+menusListName[i])
+                                    searchedMenu.add(menusList[i])
+                                    searchedMenuName.add(menusListName[i])
+                                }
+                            }
+                            recyclerView.adapter!!.notifyDataSetChanged()
+                        } else {
+                            searchedMenu.clear()
+                            searchedMenuName.clear()
+                            searchedMenu.addAll(menusList)
+                            searchedMenuName.addAll(menusListName)
+                            recyclerView.adapter!!.notifyDataSetChanged()
+                        }
+                        return false
+                    }
+                })
+                recyclerView.adapter = MenuItemAdapter(searchedMenu)
+            }
+        }
+
+        return view
+    }
+
+    private fun getData() {
+        menusList = menuds.loadList()
+        menusListName = menuds.loadName()
+        searchedMenu.addAll(menusList)
+        searchedMenuName.addAll(menusListName)
+        recyclerView.adapter = MenuItemAdapter(menusList)
     }
 }

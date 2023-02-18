@@ -20,12 +20,13 @@
             android:id="@+id/item_name_menu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Makanan 1"
             android:textColor="@color/colorAccent"
+            android:textStyle="bold"
             android:textSize="20sp"
             app:layout_constraintEnd_toStartOf="@+id/item_bt_menu_min"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginBottom="15dp"/>
 
         <TextView
             android:id="@+id/item_price_menu"

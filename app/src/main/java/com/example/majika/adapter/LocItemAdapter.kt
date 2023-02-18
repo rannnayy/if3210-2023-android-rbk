@@ -35,10 +35,10 @@ class LocItemAdapter (private val locs: List<Loc>) : RecyclerView.Adapter<LocIte
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         holder.locTitleText.text = locs[position].locTitle
         holder.locDescText.text = locs[position].locDesc
-        holder.locTelText.text = locs[position].locTel.toString()
+        holder.locTelText.text = locs[position].locTel
         holder.buttonCard.setOnClickListener{v: View ->
             Toast.makeText(v.context, "Opening", Toast.LENGTH_SHORT).show()
-            val gmmIntentUri = Uri.parse("geo:37.7749,-122.4194")
+            val gmmIntentUri = Uri.parse("geo:"+locs[position].locLatitude+","+locs[position].locLongitude)
             val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
             mapIntent.setPackage("com.google.android.apps.maps")
             v.context.startActivity(mapIntent)

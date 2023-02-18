@@ -1,6 +1,7 @@
 package com.example.majika
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.majika.adapter.LocItemAdapter
 import com.example.majika.data.LocDatasource
 import com.example.majika.model.Loc
+import com.example.majika.retrofit.MajikaAPI
+import com.example.majika.retrofit.RetrofitClient
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class LocationFragment : Fragment() {
     private lateinit var toolbarMajika: Toolbar
@@ -21,6 +28,7 @@ class LocationFragment : Fragment() {
     private lateinit var adapter: LocItemAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var locsList: List<Loc>
+    private var locds: LocDatasource = LocDatasource()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,12 +55,24 @@ class LocationFragment : Fragment() {
         (activity as AppCompatActivity).setSupportActionBar(toolbarMajika)
         (activity as AppCompatActivity).getSupportActionBar()?.setDisplayShowTitleEnabled(false)
 
-        locsList = LocDatasource().loadList()
-        val layoutManager = LinearLayoutManager(context)
-        recyclerView = view.findViewById(R.id.LocRecyclerView)
-        recyclerView.layoutManager = layoutManager
-        recyclerView.setHasFixedSize(true)
-        adapter = LocItemAdapter(locsList)
-        recyclerView.adapter = adapter
+        val quotesApi = RetrofitClient.getInstance().create(MajikaAPI::class.java)
+
+        GlobalScope.launch {
+            val result = quotesApi.getBranches();
+            if (result != null){
+                Log.d("BRANCHES: ", result.body()?.data.toString())
+
+                locds.fillList(result.body()?.data!!)
+            }
+            withContext(Dispatchers.Main) {
+                locsList = locds.loadList()
+                val layoutManager = LinearLayoutManager(context)
+                recyclerView = view.findViewById(R.id.LocRecyclerView)
+                recyclerView.layoutManager = layoutManager
+                recyclerView.setHasFixedSize(true)
+                adapter = LocItemAdapter(locsList)
+                recyclerView.adapter = adapter
+            }
+        }
     }
 }

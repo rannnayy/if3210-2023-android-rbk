@@ -1,3 +1,5 @@
 package com.example.majika.model
 
-data class Menu(val nameMenu: String, val priceMenu: Number, val numSoldMenu: Number, val descMenu: String, val numBuyMenu: Number, val type: Int)
+open class MenuRecyclerViewItem
+class Menu(val nameMenu: String, val priceMenu: Int, val numSoldMenu: Int, val descMenu: String, val numBuyMenu: Int, val currencyMenu: String, val typeMenu: String) : MenuRecyclerViewItem()
+class Title(val category: String) : MenuRecyclerViewItem()

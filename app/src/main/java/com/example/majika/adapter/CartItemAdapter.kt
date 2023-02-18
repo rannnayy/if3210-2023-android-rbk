@@ -14,7 +14,7 @@ import com.example.majika.model.Cart
 import com.example.majika.model.CartRecyclerViewItem
 import com.example.majika.model.Price
 
-class CartItemAdapter(private val context: Context, private val carts: List<CartRecyclerViewItem>, private val onBtPayClicked: (Int) -> Int?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class CartItemAdapter(private val carts: List<CartRecyclerViewItem>, private val onBtPayClicked: (Int) -> Int?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     companion object {
         const val VIEW_CART = 1
         const val VIEW_PRICE = 2

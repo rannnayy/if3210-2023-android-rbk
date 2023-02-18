@@ -8,7 +8,7 @@ data class MenuData(
     val name: String,
     val description: String,
     val currency: String,
-    val price: Integer,
-    val sold: Integer,
+    val price: Int,
+    val sold: Int,
     val type: String
 )

@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -45,7 +44,7 @@ class ShoppingCartFragment : Fragment() {
         recyclerView = view.findViewById(R.id.CartRecyclerView)
         recyclerView.layoutManager = layoutManager
         recyclerView.setHasFixedSize(true)
-        recyclerView.adapter = CartItemAdapter(view.context, cartsList) {Int ->
+        recyclerView.adapter = CartItemAdapter(cartsList) {Int ->
             val pay = PaymentFragment.newInstance(Int)
             val transaction = fragmentManager?.beginTransaction()
             transaction?.replace(R.id.mainContainer, pay)?.commit()
