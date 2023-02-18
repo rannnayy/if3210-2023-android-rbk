@@ -1,6 +1,7 @@
 package com.example.majika.room
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import com.example.majika.model.CartModel
 import kotlinx.coroutines.CoroutineScope
@@ -32,7 +33,7 @@ class CartRepository {
 
             CoroutineScope(IO).launch {
                 val newData = CartModel(
-                    name, description, currency, price, sold, type, added
+                    name = name, description = description, currency = currency, price = price, sold = sold, type = type, added = added
                 )
                 cartDatabase!!.cartDAO().Insert(newData)
             }
@@ -46,12 +47,33 @@ class CartRepository {
             return cartModels
         }
 
-        fun deletecart(context: Context){
+        fun clearCart(context: Context){
             cartDatabase = initializeDB(context)
             CoroutineScope(IO).launch{
-                cartDatabase!!.cartDAO().deleteCart()
+                cartDatabase!!.cartDAO().clearCart()
             }
+        }
 
+        fun decreaseItem(context: Context, cartModel: CartModel){
+            cartDatabase = initializeDB(context)
+            CoroutineScope(IO).launch{
+                if (cartModel.added > 1){
+                    val newItem = cartModel.copy(added = cartModel.added-1)
+                    cartDatabase!!.cartDAO().updateItem(newItem)
+                }
+                else {
+                    cartDatabase!!.cartDAO().deleteItem(cartModel)
+                }
+
+            }
+        }
+
+        fun addItem(context: Context, cartModel: CartModel){
+            cartDatabase = initializeDB(context)
+            CoroutineScope(IO).launch{
+                val newItem = cartModel.copy(added = cartModel.added+1)
+                cartDatabase!!.cartDAO().updateItem(newItem)
+            }
         }
     }
 }

@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.majika.model.CartModel
 
-@Database(entities = arrayOf(CartModel::class), version=1, exportSchema=false)
+@Database(entities = arrayOf(CartModel::class), version=2, exportSchema=false)
 abstract class CartDatabase: RoomDatabase(){
     abstract fun cartDAO(): CartDAO
 

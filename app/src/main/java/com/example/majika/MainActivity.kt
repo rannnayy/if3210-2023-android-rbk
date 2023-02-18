@@ -49,14 +49,12 @@ class MainActivity : AppCompatActivity() {
 
         cartViewModel = ViewModelProvider(this).get(CartViewModel::class.java)
 
-        cartViewModel.insertData(context, "test", "haha hihi", "IDR", 10, 20, "Food", 1)
-        cartViewModel.insertData(context, "test", "haha hihi 2", "IDR", 1, 2, "Food", 1)
-
         cartViewModel.getCart(context)!!.observe(this, Observer{
-            Log.d("TEST 123", it.toString())
+            Log.d("Test", it.toString())
+            cartViewModel.decreaseItem(context, it[0])
         })
 
-//        cartViewModel.deleteCart(context)
+
 
     }
 }

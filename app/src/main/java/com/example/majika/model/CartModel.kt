@@ -6,6 +6,8 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName="Cart")
 data class CartModel(
+    @PrimaryKey(autoGenerate = true)
+    var Id: Int = 0,
     @ColumnInfo(name="name")
     val name: String,
     @ColumnInfo(name="description")
@@ -21,7 +23,5 @@ data class CartModel(
     @ColumnInfo(name="added", defaultValue = "0")
     val added: Int
 ) {
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name="id")
-    var Id: Int? = null
+
 }

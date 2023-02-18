@@ -28,7 +28,15 @@ class CartViewModel: ViewModel() {
         return liveDataCart
     }
 
-    fun deleteCart(context: Context) {
-        CartRepository.deletecart(context)
+    fun clearCart(context: Context) {
+        CartRepository.clearCart(context)
+    }
+
+    fun decreaseItem(context: Context, cartModel: CartModel){
+        CartRepository.decreaseItem(context, cartModel)
+    }
+
+    fun addItem(context: Context, cartModel: CartModel){
+        CartRepository.addItem(context, cartModel)
     }
 }
