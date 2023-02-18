@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -22,11 +23,16 @@ import androidx.camera.view.PreviewView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.example.majika.retrofit.MajikaAPI
+import com.example.majika.retrofit.RetrofitClient
 import com.google.zxing.*
 import com.google.zxing.common.HybridBinarizer
 import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.multi.qrcode.QRCodeMultiReader
+import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers.IO
 import org.json.JSONException
+import java.lang.Runnable
 import java.nio.ByteBuffer
 
 
@@ -84,6 +90,7 @@ class PaymentFragment : Fragment() {
     private lateinit var tvResult: TextView
 
     private var qrCode: String? = null
+    private lateinit var qrResult: ImageView
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -111,6 +118,7 @@ class PaymentFragment : Fragment() {
 
         myViewFinder = view.findViewById(R.id.qrViewFinder)
         tvResult = view.findViewById(R.id.qrPrice)
+        qrResult = view.findViewById(R.id.qrResult)
 
         return view
     }
@@ -178,15 +186,42 @@ class PaymentFragment : Fragment() {
                     QRCodeImageAnalyzer(object : QRCodeFoundListener {
                         //TODO: UBAH LOGIC JADI NEMBAK API
                         override fun onQRCodeFound(_qrCode: String?) {
-                            qrCode = _qrCode
-                            tvResult.setText(qrCode)
-                            qrCode?.let { it1 -> Log.d("QRCode", it1) }
+                            var status : String = "FAILED"
+                            val quotesApi = RetrofitClient.getInstance().create(MajikaAPI::class.java)
 
-                            cameraProvider.unbindAll()
-//                            wait for 5 seconds then reopen camera
-                            Handler().postDelayed({
-                                openCamera()
-                            }, 5000)
+                            val statusResult = CoroutineScope(IO).async {
+                                val result = _qrCode?.let { it1 -> quotesApi.pay(it1) }
+                                if (result != null){
+                                    status = result.body()?.status.toString()
+                                    Log.d("HASIL: ", status)
+                                }
+                            }
+
+                            runBlocking(IO) {
+                                statusResult.await()
+                            }
+
+                            if(status == "SUCCESS"){
+                                Log.d("QR: ", status)
+                                cameraProvider.unbindAll()
+                                qrResult.setImageDrawable(ContextCompat.getDrawable(safeContext, R.drawable.berhasil_no_backgroud))
+                                qrResult.visibility = View.VISIBLE
+                                Handler().postDelayed({
+//                                    openCamera() TODO: REROUTE TO MENU
+                                }, 5000)
+                            }
+                            else{
+                                Log.d("QR: ", status)
+                                cameraProvider.unbindAll()
+                                qrResult.setImageDrawable(ContextCompat.getDrawable(safeContext, R.drawable.gagal_no_backgroud))
+                                qrResult.visibility = View.VISIBLE
+                                Handler().postDelayed({
+                                    openCamera()
+                                }, 500)
+
+                            }
+
+
                         }
 
                         override fun qrCodeNotFound() {
