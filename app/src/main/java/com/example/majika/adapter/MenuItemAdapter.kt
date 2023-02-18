@@ -47,7 +47,7 @@ class MenuItemAdapter (private val menus: List<MenuRecyclerViewItem>) : Recycler
                     "Adding 1 " + item.nameMenu,
                     Toast.LENGTH_SHORT
                 ).show()
-                menuBuyText.text = (item.numBuyMenu.toInt() + 1).toString()
+                menuBuyText.text = (item.numBuyMenu + 1).toString()
             }
             menuBtMin.setOnClickListener { v: View ->
                 Toast.makeText(
@@ -55,7 +55,7 @@ class MenuItemAdapter (private val menus: List<MenuRecyclerViewItem>) : Recycler
                     "Removing 1 " + item.nameMenu,
                     Toast.LENGTH_SHORT
                 ).show()
-                menuBuyText.text = (item.numBuyMenu.toInt() - 1).toString()
+                menuBuyText.text = (item.numBuyMenu - 1).toString()
             }
         }
     }
