@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
 
         cartViewModel.getCart(context)!!.observe(this, Observer{
             Log.d("Test", it.toString())
-            cartViewModel.decreaseItem(context, it[0])
+//            cartViewModel.decreaseItem(context, it[0])
         })
 
 

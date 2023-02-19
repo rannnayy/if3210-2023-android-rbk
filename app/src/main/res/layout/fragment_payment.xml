@@ -32,16 +32,26 @@
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintTop_toBottomOf="@+id/qrScanText"
             android:layout_marginTop="20dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp">
+            >
 
             <androidx.camera.view.PreviewView
                 android:id="@+id/qrViewFinder"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="0dp"
-                app:layout_constraintDimensionRatio="3:4"
                 app:scaleType="fitCenter" />
+
+            <ImageView
+                android:id="@+id/qrOverlay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/qr_overlay"
+                android:scaleType="fitCenter"
+                android:layout_marginTop="0dp"
+                android:alpha="0.5"
+                app:scaleType="fitCenter" />
+
+
 
         </RelativeLayout>
 
@@ -55,7 +65,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/qrView"
-            android:layout_marginTop="50dp"/>
+            android:layout_marginTop="20dp"/>
 
         <ImageView
             android:id="@+id/qrResult"
