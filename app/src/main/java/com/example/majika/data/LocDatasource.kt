@@ -11,9 +11,10 @@ class LocDatasource {
     val listCP = mutableListOf<String>()
     val listLongitude = mutableListOf<Double>()
     val listLatitude = mutableListOf<Double>()
+    val listEmail = mutableListOf<String>()
 
     fun loadList(): List<Loc> {
-        return (0..(listLocTitle.size-1)).map{ key -> Loc(listLocTitle[key], listLocDesc[key], listLocTel[key], listPopularFood[key], listCP[key], listLongitude[key], listLatitude[key]) }
+        return (0..(listLocTitle.size-1)).map{ key -> Loc(listLocTitle[key], listLocDesc[key], listLocTel[key], listPopularFood[key], listCP[key], listLongitude[key], listLatitude[key], listEmail[key]) }
     }
 
     fun fillList(data : List<BranchData>) {
@@ -25,6 +26,8 @@ class LocDatasource {
             listCP += branch.contact_person
             listLongitude += branch.longitude
             listLatitude += branch.latitude
+//            listEmail += branch.email
+            listEmail += ""
         }
     }
 }

@@ -39,14 +39,7 @@ class LocationFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_location, container, false)
-    }
-
-    companion object {
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        val view = inflater.inflate(R.layout.fragment_location, container, false)
 
         toolbarMajika = view.findViewById(R.id.majikaToolbar)
         toolbarMajikaText = toolbarMajika.findViewById(R.id.majikaToolbarTitle)
@@ -74,5 +67,8 @@ class LocationFragment : Fragment() {
                 recyclerView.adapter = adapter
             }
         }
+
+        return view
     }
+
 }

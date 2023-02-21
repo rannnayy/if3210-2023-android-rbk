@@ -11,5 +11,6 @@ data class BranchData(
     val contact_person: String,
     val phone_number: String,
     val longitude: Double,
-    val latitude: Double
+    val latitude: Double,
+    val email: String,
 )

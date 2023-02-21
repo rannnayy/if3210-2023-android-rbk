@@ -21,6 +21,7 @@ class LocItemAdapter (private val locs: List<Loc>) : RecyclerView.Adapter<LocIte
         val locTelText: TextView = view.findViewById(R.id.item_telp_loc)
         val locCard: CardView = view.findViewById(R.id.cardViewLoc)
         val buttonCard: Button = view.findViewById(R.id.item_bt_loc)
+        val buttonEmail: Button = view.findViewById(R.id.item_bt_email)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
@@ -37,11 +38,18 @@ class LocItemAdapter (private val locs: List<Loc>) : RecyclerView.Adapter<LocIte
         holder.locDescText.text = locs[position].locDesc
         holder.locTelText.text = locs[position].locTel
         holder.buttonCard.setOnClickListener{v: View ->
-            Toast.makeText(v.context, "Opening", Toast.LENGTH_SHORT).show()
+            Toast.makeText(v.context, "Opening Google Maps...", Toast.LENGTH_SHORT).show()
             val gmmIntentUri = Uri.parse("geo:"+locs[position].locLatitude+","+locs[position].locLongitude)
             val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
             mapIntent.setPackage("com.google.android.apps.maps")
             v.context.startActivity(mapIntent)
+        }
+        holder.buttonEmail.setOnClickListener{v: View ->
+            Toast.makeText(v.context, "Opening Gmail...", Toast.LENGTH_SHORT).show()
+//            val gmailIntentUri = Uri.parse()
+//            val gmailIntent = Intent(Intent.ACTION_VIEW, gmailIntentUri)
+//            gmailIntent.setPackage("com.google.android.apps.maps")
+//            v.context.startActivity(gmailIntent)
         }
     }
 }
