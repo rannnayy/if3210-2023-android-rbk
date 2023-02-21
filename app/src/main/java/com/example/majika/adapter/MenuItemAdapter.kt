@@ -9,11 +9,13 @@ import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.majika.R
+import com.example.majika.model.CartModel
 import com.example.majika.model.Menu
 import com.example.majika.model.MenuRecyclerViewItem
 import com.example.majika.model.Title
+import com.example.majika.room.CartViewModel
 
-class MenuItemAdapter (private val menus: List<MenuRecyclerViewItem>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class MenuItemAdapter (private val menus: List<MenuRecyclerViewItem>, private val cartViewModel: CartViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     companion object {
         const val VIEW_CARD = 1
         const val VIEW_TEXT = 2
@@ -35,7 +37,7 @@ class MenuItemAdapter (private val menus: List<MenuRecyclerViewItem>) : Recycler
         val menuBuyText: TextView = view.findViewById(R.id.item_num_buy_menu)
         val menuBtMin: Button = view.findViewById(R.id.item_bt_menu_min)
         
-        fun bind(item: Menu) {
+        fun bind(item: Menu, cartViewModel: CartViewModel) {
             menuNameText.text = item.nameMenu
             menuPriceText.text = item.priceMenu.toString()
             menuSoldText.text = item.numSoldMenu.toString()
@@ -47,22 +49,55 @@ class MenuItemAdapter (private val menus: List<MenuRecyclerViewItem>) : Recycler
                     "Adding 1 " + item.nameMenu,
                     Toast.LENGTH_SHORT
                 ).show()
-                menuBuyText.text = (item.numBuyMenu + 1).toString()
+                cartViewModel.addItem(
+                    CartModel(
+                        name = item.nameMenu,
+                        description = item.descMenu,
+                        currency = item.currencyMenu,
+                        price = item.priceMenu,
+                        sold = item.numSoldMenu,
+                        type = item.typeMenu,
+                        added = 1
+                    )
+                )
+                item.numBuyMenu += 1
+                menuBuyText.text = item.numBuyMenu.toString()
             }
             menuBtMin.setOnClickListener { v: View ->
-                Toast.makeText(
-                    v.context,
-                    "Removing 1 " + item.nameMenu,
-                    Toast.LENGTH_SHORT
-                ).show()
-                menuBuyText.text = (item.numBuyMenu - 1).toString()
+                if (item.numBuyMenu > 0) {
+                    Toast.makeText(
+                        v.context,
+                        "Removing 1 " + item.nameMenu,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    cartViewModel.decreaseItem(
+                        CartModel(
+                            name = item.nameMenu,
+                            description = item.descMenu,
+                            currency = item.currencyMenu,
+                            price = item.priceMenu,
+                            sold = item.numSoldMenu,
+                            type = item.typeMenu,
+                            added = 1
+                        )
+                    )
+                    item.numBuyMenu -= 1
+                    menuBuyText.text = item.numBuyMenu.toString()
+                }
+                else {
+                    Toast.makeText(
+                        v.context,
+                        "Can't decrease non-bought item!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
         }
     }
     class TextViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         val menuNameText: TextView = view.findViewById(R.id.item_text)
 
-        fun bind(item: Title) {
+        fun bind(item: Title, cartViewModel: CartViewModel) {
             menuNameText.text = item.category
         }
     }
@@ -80,12 +115,12 @@ class MenuItemAdapter (private val menus: List<MenuRecyclerViewItem>) : Recycler
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val item = menus[position]
+        var item = menus[position]
         if (holder is ItemViewHolder && item is Menu) {
-            holder.bind(item)
+            holder.bind(item, cartViewModel)
         }
         if (holder is TextViewHolder && item is Title) {
-            holder.bind(item)
+            holder.bind(item, cartViewModel)
         }
     }
 }

@@ -4,13 +4,13 @@ import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.majika.adapter.MenuItemAdapter
@@ -19,6 +19,9 @@ import com.example.majika.model.MenuRecyclerViewItem
 import com.example.majika.retrofit.MajikaAPI
 import com.example.majika.retrofit.MenuData
 import com.example.majika.retrofit.RetrofitClient
+import com.example.majika.room.CartDatabase
+import com.example.majika.room.CartViewModel
+import com.example.majika.room.CartViewModelFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -39,6 +42,9 @@ class FoodBankFragment : Fragment() {
     private lateinit var searchedMenu: ArrayList<MenuRecyclerViewItem>
     private lateinit var searchedMenuName: ArrayList<String>
 
+    lateinit var cartDatabase: CartDatabase
+    lateinit var cartViewModel: CartViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -49,6 +55,9 @@ class FoodBankFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_food_bank, container, false)
+
+        cartDatabase = CartDatabase.getDatabaseClient(this.requireContext())
+        cartViewModel = ViewModelProvider(this, CartViewModelFactory(cartDatabase)).get(CartViewModel::class.java)
 
         toolbarMajika = view.findViewById(R.id.majikaToolbar)
         toolbarMajikaText = toolbarMajika.findViewById(R.id.majikaToolbarTitle)
@@ -98,12 +107,8 @@ class FoodBankFragment : Fragment() {
                         searchedMenuName.clear()
                         val searchText = p0!!.toLowerCase(Locale.getDefault())
                         if (searchText.isNotEmpty()) {
-//                            println(searchText)
                             for (i in (0..menusList.size-1)) {
-//                                println(menusListName)
-//                                println(menusListName[i] == "Makanan" || menusListName[i] == "Minuman")
                                 if ((menusListName[i] != "Makanan" || menusListName[i] != "Minuman") && menusListName[i].toLowerCase(Locale.getDefault()).contains(searchText)) {
-//                                    println("CHOSEN ========= "+menusListName[i])
                                     searchedMenu.add(menusList[i])
                                     searchedMenuName.add(menusListName[i])
                                 }
@@ -119,7 +124,7 @@ class FoodBankFragment : Fragment() {
                         return false
                     }
                 })
-                recyclerView.adapter = MenuItemAdapter(searchedMenu)
+                recyclerView.adapter = MenuItemAdapter(searchedMenu, cartViewModel)
             }
         }
 
@@ -131,6 +136,6 @@ class FoodBankFragment : Fragment() {
         menusListName = menuds.loadName()
         searchedMenu.addAll(menusList)
         searchedMenuName.addAll(menusListName)
-        recyclerView.adapter = MenuItemAdapter(menusList)
+        recyclerView.adapter = MenuItemAdapter(menusList, cartViewModel)
     }
 }

@@ -1,15 +1,14 @@
 package com.example.majika.room
 
 import android.content.Context
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.example.majika.model.CartModel
+import kotlinx.coroutines.flow.Flow
 
-class CartViewModel: ViewModel() {
-    var liveDataCart: LiveData<List<CartModel>>? = null
+class CartViewModel(var cartDatabase: CartDatabase): ViewModel() {
+    var liveDataCart: Flow<List<CartModel>>? = null
 
     fun insertData(
-        context: Context,
         name: String,
         description: String,
         currency: String,
@@ -18,25 +17,29 @@ class CartViewModel: ViewModel() {
         type: String,
         added: Int
     ) {
-        CartRepository.insertData(
-            context, name, description, currency, price, sold, type, added
+        CartRepository(cartDatabase).insertData(
+            name, description, currency, price, sold, type, added
         )
     }
 
-    fun getCart(context: Context):LiveData<List<CartModel>>?{
-        liveDataCart = CartRepository.getCart(context)
+    fun getCart():Flow<List<CartModel>>?{
+        liveDataCart = CartRepository(cartDatabase).getCart()
         return liveDataCart
     }
 
-    fun clearCart(context: Context) {
-        CartRepository.clearCart(context)
+    fun getCartWithID(id: Int): CartModel {
+        return CartRepository(cartDatabase).getCartWithID(id)
     }
 
-    fun decreaseItem(context: Context, cartModel: CartModel){
-        CartRepository.decreaseItem(context, cartModel)
+    fun clearCart() {
+        CartRepository(cartDatabase).clearCart()
     }
 
-    fun addItem(context: Context, cartModel: CartModel){
-        CartRepository.addItem(context, cartModel)
+    fun decreaseItem(cartModel: CartModel){
+        CartRepository(cartDatabase).decreaseItem(cartModel)
+    }
+
+    fun addItem(cartModel: CartModel){
+        CartRepository(cartDatabase).addItem(cartModel)
     }
 }
