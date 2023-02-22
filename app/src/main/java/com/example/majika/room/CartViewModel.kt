@@ -35,6 +35,16 @@ class CartViewModel(var cartDatabase: CartDatabase): ViewModel() {
         return liveDataCart
     }
 
+    fun getFood(): List<CartModel>?{
+        liveDataCart = repo.getFood()
+        return liveDataCart
+    }
+
+    fun getDrink(): List<CartModel>?{
+        liveDataCart = repo.getDrink()
+        return liveDataCart
+    }
+
     fun getBoughtCart(): List<CartModel> {
         return repo.getBoughtCart()
     }

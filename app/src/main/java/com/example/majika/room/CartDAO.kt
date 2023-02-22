@@ -18,6 +18,12 @@ interface CartDAO {
     @Query("SELECT * FROM Cart")
     fun getCart() : List<CartModel>
 
+    @Query("SELECT * FROM Cart WHERE type = 'Food'")
+    fun getFood() : List<CartModel>
+
+    @Query("SELECT * FROM Cart WHERE type = 'Drink'")
+    fun getDrink() : List<CartModel>
+
     @Query("SELECT * FROM Cart WHERE added > 0")
     fun getBoughtCart() : List<CartModel>
 

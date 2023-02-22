@@ -32,6 +32,14 @@ class CartRepository(private val cartDatabase: CartDatabase) {
         return cartDatabase!!.cartDAO().getCart()
     }
 
+    fun getFood() : List<CartModel>? {
+        return cartDatabase!!.cartDAO().getFood()
+    }
+
+    fun getDrink() : List<CartModel>? {
+        return cartDatabase!!.cartDAO().getDrink()
+    }
+
     fun getBoughtCart() : List<CartModel> {
         return cartDatabase!!.cartDAO().getBoughtCart()
     }

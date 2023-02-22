@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.majika.adapter.MenuItemAdapter
 import com.example.majika.data.MenuDatasource
+import com.example.majika.model.CartModel
 import com.example.majika.model.Menu
 import com.example.majika.model.MenuRecyclerViewItem
 import com.example.majika.retrofit.MajikaAPI
@@ -58,7 +59,6 @@ class FoodBankFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_food_bank, container, false)
 
         cartDatabase = CartDatabase.getDatabaseClient(this.requireContext())
@@ -76,17 +76,22 @@ class FoodBankFragment : Fragment() {
         val quotesApi = RetrofitClient.getInstance().create(MajikaAPI::class.java)
 
         GlobalScope.launch {
-            val resultFood = quotesApi.getFood()
-            val resultDrink = quotesApi.getDrink()
-            if (resultFood != null && resultDrink != null){
-                Log.d("FOODS: ", resultFood.body()?.data.toString())
-                Log.d("DRINKS: ", resultDrink.body()?.data.toString())
-
-                menuds.fillList(listOf(MenuData("Makanan", "", "", 0, 0, "text")))
-                menuds.fillList(resultFood.body()?.data!!)
-                menuds.fillList(listOf(MenuData("Minuman", "", "", 0, 0, "text")))
-                menuds.fillList(resultDrink.body()?.data!!)
+            menuds.fillList(listOf(CartModel(name = "Makanan", description = "", currency = "", price = 0, sold = 0, type = "text", added = 0)))
+            var foodResult = cartViewModel.getFood()!!
+            for (res in foodResult) {
+                foodResult += CartModel(
+                    name = res.name, description = res.description, currency = res.currency, price = res.price, sold = res.sold, type = res.type, added = res.added
+                )
             }
+            menuds.fillList(foodResult)
+            menuds.fillList(listOf(CartModel(name = "Minuman", description = "", currency = "", price = 0, sold = 0, type = "text", added = 0)))
+            var drinkResult = cartViewModel.getDrink()!!
+            for (res in drinkResult) {
+                drinkResult += CartModel(
+                    name = res.name, description = res.description, currency = res.currency, price = res.price, sold = res.sold, type = res.type, added = res.added
+                )
+            }
+            menuds.fillList(foodResult)
             withContext(Dispatchers.Main) {
                 val layoutManager = LinearLayoutManager(context)
                 recyclerView = view.findViewById(R.id.FoodBankRecyclerView)
@@ -129,7 +134,6 @@ class FoodBankFragment : Fragment() {
                         return false
                     }
                 })
-                recyclerView.adapter = MenuItemAdapter(searchedMenu, cartViewModel)
             }
         }
 

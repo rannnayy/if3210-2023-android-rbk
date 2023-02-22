@@ -1,5 +1,6 @@
 package com.example.majika.data
 
+import com.example.majika.model.CartModel
 import com.example.majika.model.Menu
 import com.example.majika.model.MenuRecyclerViewItem
 import com.example.majika.model.Title
@@ -41,13 +42,13 @@ class MenuDatasource {
         return listNameMenu
     }
 
-    fun fillList(data : List<MenuData>) {
+    fun fillList(data : List<CartModel>) {
         for (menu in data) {
             listNameMenu += menu.name
             listPriceMenu += menu.price
             listSoldMenu += menu.sold
             listDescMenu += menu.description
-            listNumBuyMenu += 0
+            listNumBuyMenu += menu.added
             listCurrencyMenu += menu.currency
             listTypeMenu += menu.type
         }
