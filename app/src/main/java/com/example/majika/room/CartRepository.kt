@@ -65,4 +65,11 @@ class CartRepository(private val cartDatabase: CartDatabase) {
             cartDatabase!!.cartDAO().updateItem(newItem)
         }
     }
+
+    fun buyItem(cartModel: CartModel) {
+        CoroutineScope(IO).launch{
+            val newItem = cartModel.copy(added = 0, sold=cartModel.sold+cartModel.added)
+            cartDatabase!!.cartDAO().updateItem(newItem)
+        }
+    }
 }
