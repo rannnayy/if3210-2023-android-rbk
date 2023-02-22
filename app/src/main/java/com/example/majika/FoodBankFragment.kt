@@ -140,7 +140,6 @@ class FoodBankFragment : Fragment() {
     private fun getData() {
         menusList = menuds.loadList()
 
-        cartViewModel.clearCart()
         var menusListTemp: List<Menu> = menuds.loadItemList()
         for (item in menusListTemp) {
             cartViewModel.insertData(
