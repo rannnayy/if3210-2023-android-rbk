@@ -1,6 +1,5 @@
 package com.example.majika.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,10 +10,12 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.majika.R
 import com.example.majika.model.Cart
+import com.example.majika.model.CartModel
 import com.example.majika.model.CartRecyclerViewItem
 import com.example.majika.model.Price
+import com.example.majika.room.CartViewModel
 
-class CartItemAdapter(private val carts: List<CartRecyclerViewItem>, private val onBtPayClicked: (Int) -> Int?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class CartItemAdapter(private var carts: List<CartRecyclerViewItem>, private val cartViewModel: CartViewModel, private val onBtPayClicked: (Int) -> Int?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     companion object {
         const val VIEW_CART = 1
         const val VIEW_PRICE = 2
@@ -33,17 +34,62 @@ class CartItemAdapter(private val carts: List<CartRecyclerViewItem>, private val
         val cartBtPlus: Button = view.findViewById(R.id.item_bt_cart_plus)
         val cartBuyText: TextView = view.findViewById(R.id.item_num_buy_cart)
         val cartBtMin: Button = view.findViewById(R.id.item_bt_cart_min)
-        fun bind(item: Cart) {
-            cartNameText.text = item.nameCart.toString()
+        fun bind(item: Cart, cartViewModel: CartViewModel) {
+            cartNameText.text = item.nameCart
             cartPriceText.text = item.priceCart.toString()
             cartBuyText.text = item.numBuyCart.toString()
             cartBtPlus.setOnClickListener{v: View ->
                 Toast.makeText(v.context, "Adding 1 "+item.nameCart, Toast.LENGTH_SHORT).show()
-                cartBuyText.text = (item.numBuyCart.toInt()+1).toString()
+                Thread {
+                    cartViewModel.addItem(
+                        cartViewModel.getCartofDetails(
+                            name = item.nameCart,
+                            description = item.descCart,
+                            currency = item.currencyCart,
+                            price = item.priceCart,
+                            type = item.typeCart
+                        )
+                    )
+                }.start()
+                item.numBuyCart += 1
+                cartBuyText.text = item.numBuyCart.toString()
             }
             cartBtMin.setOnClickListener{v: View ->
-                Toast.makeText(v.context, "Removing 1 "+item.nameCart, Toast.LENGTH_SHORT).show()
-                cartBuyText.text = (item.numBuyCart.toInt()-1).toString()
+                if (item.numBuyCart > 0) {
+                    Toast.makeText(v.context, "Removing 1 " + item.nameCart, Toast.LENGTH_SHORT).show()
+                    Thread {
+                        cartViewModel.decreaseItem(
+                            cartViewModel.getCartofDetails(
+                                name = item.nameCart,
+                                description = item.descCart,
+                                currency = item.currencyCart,
+                                price = item.priceCart,
+                                type = item.typeCart
+                            )
+                        )
+                    }.start()
+                    item.numBuyCart -= 1
+                    cartBuyText.text = item.numBuyCart.toString()
+                }
+                else {
+                    Toast.makeText(
+                        v.context,
+                        "Removing " + item.nameCart + " from cart.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    Thread {
+                        cartViewModel.decreaseItem(
+                            cartViewModel.getCartofDetails(
+                                name = item.nameCart,
+                                description = item.descCart,
+                                currency = item.currencyCart,
+                                price = item.priceCart,
+                                type = item.typeCart
+                            )
+                        )
+                    }.start()
+                    cartCard.visibility = View.INVISIBLE
+                }
             }
         }
     }
@@ -68,14 +114,14 @@ class CartItemAdapter(private val carts: List<CartRecyclerViewItem>, private val
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val item = carts[position]
+        var item = carts[position]
         if (holder is ItemViewHolder && item is Cart) {
-            holder.bind(item)
+            holder.bind(item, cartViewModel)
         }
         if (holder is PriceViewHolder && item is Price) {
             holder.bind(item)
             holder.priceBtToPay.setOnClickListener{
-                onBtPayClicked(item.price as Int)
+                onBtPayClicked(item.price)
             }
         }
     }

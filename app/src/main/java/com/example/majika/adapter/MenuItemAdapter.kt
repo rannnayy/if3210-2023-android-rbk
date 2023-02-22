@@ -14,8 +14,10 @@ import com.example.majika.model.Menu
 import com.example.majika.model.MenuRecyclerViewItem
 import com.example.majika.model.Title
 import com.example.majika.room.CartViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
-class MenuItemAdapter (private val menus: List<MenuRecyclerViewItem>, private val cartViewModel: CartViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class MenuItemAdapter (private var menus: List<MenuRecyclerViewItem>, private val cartViewModel: CartViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     companion object {
         const val VIEW_CARD = 1
         const val VIEW_TEXT = 2
@@ -49,17 +51,17 @@ class MenuItemAdapter (private val menus: List<MenuRecyclerViewItem>, private va
                     "Adding 1 " + item.nameMenu,
                     Toast.LENGTH_SHORT
                 ).show()
-                cartViewModel.addItem(
-                    CartModel(
-                        name = item.nameMenu,
-                        description = item.descMenu,
-                        currency = item.currencyMenu,
-                        price = item.priceMenu,
-                        sold = item.numSoldMenu,
-                        type = item.typeMenu,
-                        added = 1
+                Thread {
+                    cartViewModel.addItem(
+                        cartViewModel.getCartofDetails(
+                            name = item.nameMenu,
+                            description = item.descMenu,
+                            currency = item.currencyMenu,
+                            price = item.priceMenu,
+                            type = item.typeMenu
+                        )
                     )
-                )
+                }.start()
                 item.numBuyMenu += 1
                 menuBuyText.text = item.numBuyMenu.toString()
             }
@@ -70,17 +72,17 @@ class MenuItemAdapter (private val menus: List<MenuRecyclerViewItem>, private va
                         "Removing 1 " + item.nameMenu,
                         Toast.LENGTH_SHORT
                     ).show()
-                    cartViewModel.decreaseItem(
-                        CartModel(
-                            name = item.nameMenu,
-                            description = item.descMenu,
-                            currency = item.currencyMenu,
-                            price = item.priceMenu,
-                            sold = item.numSoldMenu,
-                            type = item.typeMenu,
-                            added = 1
+                    Thread {
+                        cartViewModel.decreaseItem(
+                            cartViewModel.getCartofDetails(
+                                name = item.nameMenu,
+                                description = item.descMenu,
+                                currency = item.currencyMenu,
+                                price = item.priceMenu,
+                                type = item.typeMenu
+                            )
                         )
-                    )
+                    }.start()
                     item.numBuyMenu -= 1
                     menuBuyText.text = item.numBuyMenu.toString()
                 }
@@ -97,7 +99,7 @@ class MenuItemAdapter (private val menus: List<MenuRecyclerViewItem>, private va
     class TextViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         val menuNameText: TextView = view.findViewById(R.id.item_text)
 
-        fun bind(item: Title, cartViewModel: CartViewModel) {
+        fun bind(item: Title) {
             menuNameText.text = item.category
         }
     }
@@ -120,7 +122,7 @@ class MenuItemAdapter (private val menus: List<MenuRecyclerViewItem>, private va
             holder.bind(item, cartViewModel)
         }
         if (holder is TextViewHolder && item is Title) {
-            holder.bind(item, cartViewModel)
+            holder.bind(item)
         }
     }
 }

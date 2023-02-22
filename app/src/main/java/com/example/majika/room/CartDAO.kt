@@ -1,5 +1,6 @@
 package com.example.majika.room
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -15,10 +16,16 @@ interface CartDAO {
     fun Insert(cartModel: CartModel)
 
     @Query("SELECT * FROM Cart")
-    fun getCart() : Flow<List<CartModel>>
+    fun getCart() : LiveData<List<CartModel>>
 
-    @Query("SELECT * FROM Cart WHERE id = :id")
+    @Query("SELECT * FROM Cart WHERE added > 0")
+    fun getBoughtCart() : LiveData<List<CartModel>>
+
+    @Query("SELECT * FROM Cart WHERE Id = :id")
     fun getCartWithID(id: Int): CartModel
+
+    @Query("SELECT * FROM Cart WHERE (name = :name and description = :description and currency = :currency and price = :price and type = :type) LIMIT 1")
+    fun getCartofDetails(name: String, description: String, currency: String, price: Int, type: String): CartModel
 
     @Query("DELETE FROM Cart")
     fun clearCart();

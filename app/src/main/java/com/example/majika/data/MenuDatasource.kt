@@ -27,6 +27,16 @@ class MenuDatasource {
         return temp
     }
 
+    fun loadItemList(): List<Menu> {
+        val temp = mutableListOf<Menu>()
+        for (i in (0 .. (listNameMenu.size-1))) {
+            if (listNameMenu[i] != "Makanan" && listNameMenu[i] != "Minuman") {
+                temp += Menu(listNameMenu[i], listPriceMenu[i], listSoldMenu[i], listDescMenu[i], listNumBuyMenu[i], listCurrencyMenu[i], listTypeMenu[i])
+            }
+        }
+        return temp
+    }
+
     fun loadName(): List<String> {
         return listNameMenu
     }
