@@ -139,8 +139,10 @@ class PaymentFragment : Fragment() {
 
         cartsIDList = cartsds.loadItemIDList()
 
-        cartsds.fillList(cartViewModel.getBoughtCart()!!)
-        cartsIDList = cartsds.loadItemIDList()
+        Thread {
+            cartsds.fillList(cartViewModel.getBoughtCart()!!)
+            cartsIDList = cartsds.loadItemIDList()
+        }.start()
 
         return view
     }
