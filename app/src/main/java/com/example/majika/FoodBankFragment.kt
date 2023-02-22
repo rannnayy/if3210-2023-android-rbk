@@ -46,6 +46,10 @@ class FoodBankFragment : Fragment() {
     lateinit var cartDatabase: CartDatabase
     lateinit var cartViewModel: CartViewModel
 
+    companion object {
+        fun newInstance() = FoodBankFragment().apply {}
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }

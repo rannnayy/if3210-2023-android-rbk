@@ -23,8 +23,16 @@ import androidx.camera.view.PreviewView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.example.majika.data.CartDatasource
+import com.example.majika.model.Cart
+import com.example.majika.model.CartRecyclerViewItem
 import com.example.majika.retrofit.MajikaAPI
 import com.example.majika.retrofit.RetrofitClient
+import com.example.majika.room.CartDatabase
+import com.example.majika.room.CartViewModel
+import com.example.majika.room.CartViewModelFactory
 import com.google.zxing.*
 import com.google.zxing.common.HybridBinarizer
 import com.google.zxing.integration.android.IntentIntegrator
@@ -92,6 +100,12 @@ class PaymentFragment : Fragment() {
     private var qrCode: String? = null
     private lateinit var qrResult: ImageView
 
+    lateinit var cartDatabase: CartDatabase
+    lateinit var cartViewModel: CartViewModel
+    private var cartsds: CartDatasource = CartDatasource()
+//    private var cartsList: List<Cart> = listOf<Cart>()
+    private var cartsIDList: List<Int> = listOf<Int>()
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         safeContext = context
@@ -108,6 +122,9 @@ class PaymentFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_payment, container, false)
 
+        cartDatabase = CartDatabase.getDatabaseClient(this.requireContext())
+        cartViewModel = ViewModelProvider(this, CartViewModelFactory(cartDatabase)).get(CartViewModel::class.java)
+
         toolbarMajika = view.findViewById(R.id.majikaToolbar)
         toolbarMajikaText = toolbarMajika.findViewById(R.id.majikaToolbarTitle)
         toolbarMajika.title = "Pembayaran"
@@ -119,6 +136,13 @@ class PaymentFragment : Fragment() {
         myViewFinder = view.findViewById(R.id.qrViewFinder)
         tvResult = view.findViewById(R.id.qrPrice)
         qrResult = view.findViewById(R.id.qrResult)
+
+        cartsIDList = cartsds.loadItemIDList()
+
+        cartViewModel.getBoughtCart()!!.observe(viewLifecycleOwner, Observer{
+            cartsds.fillList(it)
+            cartsIDList = cartsds.loadItemIDList()
+        })
 
         return view
     }
@@ -206,8 +230,17 @@ class PaymentFragment : Fragment() {
                                 cameraProvider.unbindAll()
                                 qrResult.setImageDrawable(ContextCompat.getDrawable(safeContext, R.drawable.berhasil_no_backgroud))
                                 qrResult.visibility = View.VISIBLE
+                                Thread {
+                                    for (id in cartsIDList) {
+                                        cartViewModel.buyItem(
+                                            cartViewModel.getCartWithID(id)
+                                        )
+                                    }
+                                }.start()
                                 Handler().postDelayed({
-//                                    openCamera() TODO: REROUTE TO MENU
+                                    val foodbank = FoodBankFragment.newInstance()
+                                    val transaction = fragmentManager?.beginTransaction()
+                                    transaction?.replace(R.id.mainContainer, foodbank)?.commit()
                                 }, 5000)
                             }
                             else{
