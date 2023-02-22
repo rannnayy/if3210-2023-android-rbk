@@ -26,8 +26,7 @@ class LocDatasource {
             listCP += branch.contact_person
             listLongitude += branch.longitude
             listLatitude += branch.latitude
-//            listEmail += branch.email
-            listEmail += ""
+            listEmail += "apartemenng@gmail.com"
         }
     }
 }

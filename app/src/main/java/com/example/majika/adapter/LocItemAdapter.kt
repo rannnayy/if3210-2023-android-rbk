@@ -46,10 +46,10 @@ class LocItemAdapter (private val locs: List<Loc>) : RecyclerView.Adapter<LocIte
         }
         holder.buttonEmail.setOnClickListener{v: View ->
             Toast.makeText(v.context, "Opening Gmail...", Toast.LENGTH_SHORT).show()
-//            val gmailIntentUri = Uri.parse()
-//            val gmailIntent = Intent(Intent.ACTION_VIEW, gmailIntentUri)
-//            gmailIntent.setPackage("com.google.android.apps.maps")
-//            v.context.startActivity(gmailIntent)
+            val mailIntentUri = Uri.fromParts("mailto", locs[position].locEmail, null)
+            val mailIntent = Intent(Intent.ACTION_SENDTO, mailIntentUri)
+            mailIntent.putExtra(Intent.EXTRA_SUBJECT, "Feedback our restaurant")
+            v.context.startActivity(mailIntent)
         }
     }
 }
