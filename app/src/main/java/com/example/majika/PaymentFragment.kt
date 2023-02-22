@@ -139,10 +139,8 @@ class PaymentFragment : Fragment() {
 
         cartsIDList = cartsds.loadItemIDList()
 
-        cartViewModel.getBoughtCart()!!.observe(viewLifecycleOwner, Observer{
-            cartsds.fillList(it)
-            cartsIDList = cartsds.loadItemIDList()
-        })
+        cartsds.fillList(cartViewModel.getBoughtCart()!!)
+        cartsIDList = cartsds.loadItemIDList()
 
         return view
     }

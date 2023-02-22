@@ -63,7 +63,6 @@ class FoodBankFragment : Fragment() {
 
         cartDatabase = CartDatabase.getDatabaseClient(this.requireContext())
         cartViewModel = ViewModelProvider(this, CartViewModelFactory(cartDatabase)).get(CartViewModel::class.java)
-        cartViewModel.clearCart()
 
         toolbarMajika = view.findViewById(R.id.majikaToolbar)
         toolbarMajikaText = toolbarMajika.findViewById(R.id.majikaToolbarTitle)
@@ -139,20 +138,6 @@ class FoodBankFragment : Fragment() {
 
     private fun getData() {
         menusList = menuds.loadList()
-
-        var menusListTemp: List<Menu> = menuds.loadItemList()
-        for (item in menusListTemp) {
-            cartViewModel.insertData(
-                name = item.nameMenu,
-                description = item.descMenu,
-                currency = item.currencyMenu,
-                price = item.priceMenu,
-                sold = item.numSoldMenu,
-                type = item.typeMenu,
-                added = 0
-            )
-        }
-
         menusListName = menuds.loadName()
         searchedMenu.addAll(menusList)
         searchedMenuName.addAll(menusListName)

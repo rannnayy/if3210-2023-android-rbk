@@ -36,7 +36,7 @@ class ShoppingCartFragment : Fragment() {
 
     lateinit var cartDatabase: CartDatabase
     lateinit var cartViewModel: CartViewModel
-    lateinit var cartBoughtLiveData: LiveData<List<CartModel>>
+    lateinit var cartBoughtLiveData: List<CartModel>
     lateinit var cartBought: List<CartModel>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,18 +60,16 @@ class ShoppingCartFragment : Fragment() {
         (activity as AppCompatActivity).setSupportActionBar(toolbarMajika)
         (activity as AppCompatActivity).getSupportActionBar()?.setDisplayShowTitleEnabled(false)
 
-        val layoutManager = LinearLayoutManager(context)
-        recyclerView = view.findViewById(R.id.CartRecyclerView)
-        recyclerView.layoutManager = layoutManager
-        recyclerView.setHasFixedSize(true)
-        getData()
-
-        cartViewModel.getBoughtCart()!!.observe(viewLifecycleOwner, Observer{
-            cartsds.fillList(it)
-            getData()
-            recyclerView.adapter!!.notifyDataSetChanged()
-        })
-        recyclerView.adapter!!.notifyDataSetChanged()
+        GlobalScope.launch {
+            cartsds.fillList(cartViewModel.getBoughtCart()!!)
+            withContext(Dispatchers.Main) {
+                val layoutManager = LinearLayoutManager(context)
+                recyclerView = view.findViewById(R.id.CartRecyclerView)
+                recyclerView.layoutManager = layoutManager
+                recyclerView.setHasFixedSize(true)
+                getData()
+            }
+        }
 
         return view
     }

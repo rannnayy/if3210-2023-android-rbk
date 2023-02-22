@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class CartViewModel(var cartDatabase: CartDatabase): ViewModel() {
-    var liveDataCart: LiveData<List<CartModel>>? = null
+    var liveDataCart: List<CartModel>? = null
     private var repo: CartRepository = CartRepository(cartDatabase)
 
     fun insertData(
@@ -30,12 +30,12 @@ class CartViewModel(var cartDatabase: CartDatabase): ViewModel() {
         }
     }
 
-    fun getCart(): LiveData<List<CartModel>>?{
+    fun getCart(): List<CartModel>?{
         liveDataCart = repo.getCart()
         return liveDataCart
     }
 
-    fun getBoughtCart(): LiveData<List<CartModel>> {
+    fun getBoughtCart(): List<CartModel> {
         return repo.getBoughtCart()
     }
 

@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 
 class CartRepository(private val cartDatabase: CartDatabase) {
-    var cartModels: LiveData<List<CartModel>>? = null
+    var cartModels: List<CartModel>? = null
 
     fun insertData(
         name: String,
@@ -28,11 +28,11 @@ class CartRepository(private val cartDatabase: CartDatabase) {
         }
     }
 
-    fun getCart() : LiveData<List<CartModel>>? {
+    fun getCart() : List<CartModel>? {
         return cartDatabase!!.cartDAO().getCart()
     }
 
-    fun getBoughtCart() : LiveData<List<CartModel>> {
+    fun getBoughtCart() : List<CartModel> {
         return cartDatabase!!.cartDAO().getBoughtCart()
     }
 

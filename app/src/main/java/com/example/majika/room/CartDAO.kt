@@ -16,10 +16,10 @@ interface CartDAO {
     fun Insert(cartModel: CartModel)
 
     @Query("SELECT * FROM Cart")
-    fun getCart() : LiveData<List<CartModel>>
+    fun getCart() : List<CartModel>
 
     @Query("SELECT * FROM Cart WHERE added > 0")
-    fun getBoughtCart() : LiveData<List<CartModel>>
+    fun getBoughtCart() : List<CartModel>
 
     @Query("SELECT * FROM Cart WHERE Id = :id")
     fun getCartWithID(id: Int): CartModel
