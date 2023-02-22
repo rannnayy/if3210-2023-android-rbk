@@ -58,4 +58,8 @@ class CartViewModel(var cartDatabase: CartDatabase): ViewModel() {
     fun addItem(cartModel: CartModel){
         repo.addItem(cartModel)
     }
+
+    fun buyItem(cartModel: CartModel){
+        repo.buyItem(cartModel)
+    }
 }
