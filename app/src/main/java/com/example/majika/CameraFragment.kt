@@ -51,7 +51,7 @@ class CameraFragment : Fragment() {
 
     private var preview: Preview? = null
     private var imageCapture: ImageCapture? = null
-    private var imageAnalyzer: ImageAnalysis? = null
+//    private var imageAnalyzer: ImageAnalysis? = null
     private var camera: Camera? = null
     private var currentCamera: Int = CameraSelector.LENS_FACING_FRONT
     private lateinit var myViewFinder: PreviewView
@@ -66,12 +66,12 @@ class CameraFragment : Fragment() {
         safeContext = context
     }
 
-    private fun getStatusBarHeight(): Int {
-        val resourceId = safeContext.resources.getIdentifier("status_bar_height", "dimen", "android")
-        return if (resourceId > 0) {
-            safeContext.resources.getDimensionPixelSize(resourceId)
-        } else 0
-    }
+//    private fun getStatusBarHeight(): Int {
+//        val resourceId = safeContext.resources.getIdentifier("status_bar_height", "dimen", "android")
+//        return if (resourceId > 0) {
+//            safeContext.resources.getDimensionPixelSize(resourceId)
+//        } else 0
+//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,29 +91,11 @@ class CameraFragment : Fragment() {
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment CameraFragment.
-         */
         val TAG = "CameraXFragment"
-        private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
+//        private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
         internal const val REQUEST_CODE_PERMISSIONS = 10
         private val REQUIRED_PERMISSIONS = arrayOf(android.Manifest.permission.CAMERA, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
         var isOffline = false // prevent app crash when goes offline
-
-        // TODO: Rename and change types and number of parameters
-//        @JvmStatic
-//        fun newInstance(param1: String, param2: String) =
-//            CameraFragment().apply {
-//                arguments = Bundle().apply {
-//                    putString(ARG_PARAM1, param1)
-//                    putString(ARG_PARAM2, param2)
-//                }
-//            }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -177,9 +159,6 @@ class CameraFragment : Fragment() {
                 cameraProvider.unbindAll()
 
                 // Bind use cases to camera
-                //ASLI
-//                camera = cameraProvider.bindToLifecycle(this, cameraSelector, imageAnalyzer, preview, imageCapture)
-                //ANALYSER DI KOMEN
                 camera = cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture)
                 preview?.setSurfaceProvider(myViewFinder?.createSurfaceProvider())
             } catch (exc: Exception) {
@@ -228,7 +207,7 @@ class CameraFragment : Fragment() {
             }
             val changeText: TextView = requireView().findViewById(R.id.textView)
             changeText.setText("Take Again?")
-            Log.d(TAG, msg)
+            // Log.d(TAG, msg)
         } catch (e: Throwable) {
             // Several error may come out with file handling or DOM
             e.printStackTrace()

@@ -162,9 +162,9 @@ class FoodBankFragment : Fragment(), SensorEventListener {
         if (p0 != null) {
             toolbarMajikaText.text = p0.values[0].toString() + "°C"
             //log all values
-            for (i in p0.values.indices) {
-                Log.d("Sensor", "onSensorChanged: " + p0.values[i])
-            }
+            // for (i in p0.values.indices) {
+            //     Log.d("Sensor", "onSensorChanged: " + p0.values[i])
+            // }
         }
     }
 

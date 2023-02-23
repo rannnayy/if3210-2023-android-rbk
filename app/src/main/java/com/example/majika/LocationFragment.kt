@@ -55,7 +55,7 @@ class LocationFragment : Fragment() {
             try{
                 val result = quotesApi.getBranches();
                 if (result != null){
-                    Log.d("BRANCHES: ", result.body()?.data.toString())
+                    // Log.d("BRANCHES: ", result.body()?.data.toString())
 
                     locds.fillList(result.body()?.data!!)
                 }

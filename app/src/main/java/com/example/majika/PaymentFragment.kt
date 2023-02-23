@@ -85,7 +85,7 @@ class QRCodeImageAnalyzer(listener: QRCodeFoundListener) : ImageAnalysis.Analyze
 }
 
 class PaymentFragment : Fragment() {
-    private var price = 0
+    private var price = "0"
     private lateinit var toolbarMajika: Toolbar
     private lateinit var toolbarMajikaText: TextView
 
@@ -103,7 +103,6 @@ class PaymentFragment : Fragment() {
     lateinit var cartDatabase: CartDatabase
     lateinit var cartViewModel: CartViewModel
     private var cartsds: CartDatasource = CartDatasource()
-//    private var cartsList: List<Cart> = listOf<Cart>()
     private var cartsIDList: List<Int> = listOf<Int>()
 
     override fun onAttach(context: Context) {
@@ -161,16 +160,20 @@ class PaymentFragment : Fragment() {
         internal const val REQUEST_CODE_PERMISSIONS = 10
         private val REQUIRED_PERMISSIONS = arrayOf(android.Manifest.permission.CAMERA)
         @JvmStatic
-        fun newInstance(price: Int) = PaymentFragment().apply {
+        fun newInstance(price: String) = PaymentFragment().apply {
             arguments = Bundle().apply {
-                putInt("Price", price)
+                putString("Price", price)
+//                Log.d("PRICETOTA============", price.toString())
             }
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        price = arguments?.getInt("Price") ?: 0
+        price = arguments?.getString("Price") ?: "0"
+
+        tvResult = view.findViewById(R.id.qrPrice)
+        tvResult.text = price
 
         if (allPermissionsGranted()) {
             openCamera()
@@ -217,7 +220,7 @@ class PaymentFragment : Fragment() {
                                 val result = _qrCode?.let { it1 -> quotesApi.pay(it1) }
                                 if (result != null){
                                     status = result.body()?.status.toString()
-                                    Log.d("HASIL: ", status)
+                                    // Log.d("HASIL: ", status)
                                 }
                             }
 
@@ -226,7 +229,7 @@ class PaymentFragment : Fragment() {
                             }
 
                             if(status == "SUCCESS"){
-                                Log.d("QR: ", status)
+                                // Log.d("QR: ", status)
                                 cameraProvider.unbindAll()
                                 qrResult.setImageDrawable(ContextCompat.getDrawable(safeContext, R.drawable.berhasil_no_backgroud))
                                 qrResult.visibility = View.VISIBLE
@@ -244,7 +247,7 @@ class PaymentFragment : Fragment() {
                                 }, 5000)
                             }
                             else{
-                                Log.d("QR: ", status)
+                                // Log.d("QR: ", status)
                                 cameraProvider.unbindAll()
                                 qrResult.setImageDrawable(ContextCompat.getDrawable(safeContext, R.drawable.gagal_no_backgroud))
                                 qrResult.visibility = View.VISIBLE
@@ -263,15 +266,6 @@ class PaymentFragment : Fragment() {
                 )
             }
 
-//            imageAnalyzer = ImageAnalysis.Builder().build().apply {
-//                setAnalyzer(Executors.newSingleThreadExecutor(), CornerAnalyzer {
-//                    val bitmap = viewFinder.bitmap
-//                    val img = Mat()
-//                    Utils.bitmapToMat(bitmap, img)
-//                    bitmap?.recycle()
-//                    // Do image analysis here if you need bitmap
-//                })
-//            }
             // Select back camera
             val cameraSelector = CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_BACK).build()
             try {
@@ -279,9 +273,6 @@ class PaymentFragment : Fragment() {
                 cameraProvider.unbindAll()
 
                 // Bind use cases to camera
-                //ASLI
-//                camera = cameraProvider.bindToLifecycle(this, cameraSelector, imageAnalyzer, preview, imageCapture)
-                //ANALYSER DI KOMEN
                 camera = cameraProvider.bindToLifecycle(this, cameraSelector, imageAnalysis, preview, imageCapture)
                 preview?.setSurfaceProvider(myViewFinder?.createSurfaceProvider())
             } catch (exc: Exception) {

@@ -1,5 +1,6 @@
 package com.example.majika.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +16,10 @@ import com.example.majika.model.CartRecyclerViewItem
 import com.example.majika.model.Price
 import com.example.majika.room.CartViewModel
 
-class CartItemAdapter(private var carts: List<CartRecyclerViewItem>, private val cartViewModel: CartViewModel, private val onBtPayClicked: (Int) -> Int?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class CartItemAdapter(private var carts: List<CartRecyclerViewItem>, private val cartViewModel: CartViewModel, private val onBtPayClicked: (String) -> String?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    lateinit var curr: String
+
     companion object {
         const val VIEW_CART = 1
         const val VIEW_PRICE = 2
@@ -116,12 +120,13 @@ class CartItemAdapter(private var carts: List<CartRecyclerViewItem>, private val
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         var item = carts[position]
         if (holder is ItemViewHolder && item is Cart) {
+            curr = item.currencyCart
             holder.bind(item, cartViewModel)
         }
         if (holder is PriceViewHolder && item is Price) {
             holder.bind(item)
             holder.priceBtToPay.setOnClickListener{
-                onBtPayClicked(item.price)
+                onBtPayClicked(curr + " " + item.price.toString())
             }
         }
     }

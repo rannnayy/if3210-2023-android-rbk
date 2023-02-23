@@ -76,10 +76,10 @@ class ShoppingCartFragment : Fragment() {
 
     private fun getData() {
         cartsList = cartsds.loadList()
-        recyclerView.adapter = CartItemAdapter(cartsList, cartViewModel) {Int ->
-            val pay = PaymentFragment.newInstance(Int)
+        recyclerView.adapter = CartItemAdapter(cartsList, cartViewModel) {String ->
+            val pay = PaymentFragment.newInstance(String)
             val transaction = fragmentManager?.beginTransaction()
-            transaction?.replace(R.id.mainContainer, pay)?.commit()
+            transaction?.replace(R.id.mainContainer, pay)?.commit().toString()
         }
         recyclerView.adapter!!.notifyDataSetChanged()
     }
