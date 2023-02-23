@@ -40,6 +40,8 @@ class FoodBankFragment : Fragment(), SensorEventListener {
     private lateinit var tempSensor: Sensor
     private lateinit var toolbarMajika: Toolbar
     private lateinit var toolbarMajikaText: TextView
+    private lateinit var toolbarMajikaTextTemp: TextView
+    private var temperatureRes: String = "0°C"
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var menusList: List<MenuRecyclerViewItem>
@@ -74,8 +76,10 @@ class FoodBankFragment : Fragment(), SensorEventListener {
 
         toolbarMajika = view.findViewById(R.id.majikaToolbar)
         toolbarMajikaText = toolbarMajika.findViewById(R.id.majikaToolbarTitle)
+        toolbarMajikaTextTemp = toolbarMajika.findViewById(R.id.majikaToolbarTemp)
         toolbarMajika.title = "Food Bank"
         toolbarMajikaText.setText(toolbarMajika.title)
+        toolbarMajikaTextTemp.setText(temperatureRes)
         (activity as AppCompatActivity).setSupportActionBar(toolbarMajika)
         (activity as AppCompatActivity).getSupportActionBar()?.setDisplayShowTitleEnabled(false)
 
@@ -160,7 +164,8 @@ class FoodBankFragment : Fragment(), SensorEventListener {
     override fun onSensorChanged(p0: SensorEvent?) {
         //Change Search with temperature
         if (p0 != null) {
-            toolbarMajikaText.text = p0.values[0].toString() + "°C"
+            temperatureRes = p0.values[0].toString() + "°C"
+            toolbarMajikaTextTemp.setText(temperatureRes)
             //log all values
             // for (i in p0.values.indices) {
             //     Log.d("Sensor", "onSensorChanged: " + p0.values[i])
@@ -170,7 +175,8 @@ class FoodBankFragment : Fragment(), SensorEventListener {
 
     override fun onAccuracyChanged(p0: Sensor?, p1: Int) {
         if(p0 === tempSensor) {
-            toolbarMajikaText.text = p1.toString()
+            temperatureRes = p1.toString() + "°C"
+            toolbarMajikaTextTemp.setText(temperatureRes)
         }
     }
 
