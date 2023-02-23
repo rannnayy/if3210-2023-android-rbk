@@ -61,6 +61,8 @@ class LocationFragment : Fragment() {
                 }
                 withContext(Dispatchers.Main) {
                     locsList = locds.loadList()
+                    locsList = locsList.sortedBy { it.locTitle.first() }
+
                     val layoutManager = LinearLayoutManager(context)
                     recyclerView = view.findViewById(R.id.LocRecyclerView)
                     recyclerView.layoutManager = layoutManager
