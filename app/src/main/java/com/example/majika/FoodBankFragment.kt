@@ -1,8 +1,12 @@
 package com.example.majika
 
+import android.annotation.SuppressLint
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +14,7 @@ import android.widget.SearchView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -29,9 +34,10 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
-import kotlin.collections.ArrayList
 
-class FoodBankFragment : Fragment() {
+class FoodBankFragment : Fragment(), SensorEventListener {
+    private lateinit var sensorManager: SensorManager
+    private lateinit var tempSensor: Sensor
     private lateinit var toolbarMajika: Toolbar
     private lateinit var toolbarMajikaText: TextView
 
@@ -53,6 +59,8 @@ class FoodBankFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        sensorManager = activity?.getSystemService(SensorManager::class.java)!!
+        tempSensor = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE)
     }
 
     override fun onCreateView(
@@ -146,5 +154,33 @@ class FoodBankFragment : Fragment() {
         searchedMenu.addAll(menusList)
         searchedMenuName.addAll(menusListName)
         recyclerView.adapter = MenuItemAdapter(menusList, cartViewModel)
+    }
+
+    @SuppressLint("SetTextI18n")
+    override fun onSensorChanged(p0: SensorEvent?) {
+        //Change Search with temperature
+        if (p0 != null) {
+            toolbarMajikaText.text = p0.values[0].toString() + "°C"
+            //log all values
+            for (i in p0.values.indices) {
+                Log.d("Sensor", "onSensorChanged: " + p0.values[i])
+            }
+        }
+    }
+
+    override fun onAccuracyChanged(p0: Sensor?, p1: Int) {
+        if(p0 === tempSensor) {
+            toolbarMajikaText.text = p1.toString()
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        sensorManager.unregisterListener(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        sensorManager.registerListener(this, tempSensor, SensorManager.SENSOR_DELAY_NORMAL)
     }
 }
