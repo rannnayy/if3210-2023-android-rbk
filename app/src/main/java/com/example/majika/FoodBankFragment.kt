@@ -55,6 +55,9 @@ class FoodBankFragment : Fragment(), SensorEventListener {
     lateinit var cartDatabase: CartDatabase
     lateinit var cartViewModel: CartViewModel
 
+    var foodResult: List<CartModel> = listOf<CartModel>()
+    var drinkResult: List<CartModel> = listOf<CartModel>()
+
     companion object {
         fun newInstance() = FoodBankFragment().apply {}
     }
@@ -88,22 +91,9 @@ class FoodBankFragment : Fragment(), SensorEventListener {
         val quotesApi = RetrofitClient.getInstance().create(MajikaAPI::class.java)
 
         GlobalScope.launch {
-            menuds.fillList(listOf(CartModel(name = "Makanan", description = "", currency = "", price = 0, sold = 0, type = "text", added = 0)))
-            var foodResult = cartViewModel.getFood()!!
-            for (res in foodResult) {
-                foodResult += CartModel(
-                    name = res.name, description = res.description, currency = res.currency, price = res.price, sold = res.sold, type = res.type, added = res.added
-                )
-            }
-            menuds.fillList(foodResult)
-            menuds.fillList(listOf(CartModel(name = "Minuman", description = "", currency = "", price = 0, sold = 0, type = "text", added = 0)))
-            var drinkResult = cartViewModel.getDrink()!!
-            for (res in drinkResult) {
-                drinkResult += CartModel(
-                    name = res.name, description = res.description, currency = res.currency, price = res.price, sold = res.sold, type = res.type, added = res.added
-                )
-            }
-            menuds.fillList(foodResult)
+            foodResult = cartViewModel.getFood()!!
+            drinkResult = cartViewModel.getDrink()!!
+
             withContext(Dispatchers.Main) {
                 val layoutManager = LinearLayoutManager(context)
                 recyclerView = view.findViewById(R.id.FoodBankRecyclerView)
@@ -129,8 +119,12 @@ class FoodBankFragment : Fragment(), SensorEventListener {
                         searchedMenuName.clear()
                         val searchText = p0!!.toLowerCase(Locale.getDefault())
                         if (searchText.isNotEmpty()) {
+//                            println(searchText)
                             for (i in (0..menusList.size-1)) {
+//                                println(menusListName)
+//                                println(menusListName[i] == "Makanan" || menusListName[i] == "Minuman")
                                 if ((menusListName[i] != "Makanan" || menusListName[i] != "Minuman") && menusListName[i].toLowerCase(Locale.getDefault()).contains(searchText)) {
+                                    println("CHOSEN ========= "+menusListName[i])
                                     searchedMenu.add(menusList[i])
                                     searchedMenuName.add(menusListName[i])
                                 }
@@ -146,6 +140,7 @@ class FoodBankFragment : Fragment(), SensorEventListener {
                         return false
                     }
                 })
+                recyclerView.adapter = MenuItemAdapter(searchedMenu, cartViewModel)
             }
         }
 
@@ -153,6 +148,11 @@ class FoodBankFragment : Fragment(), SensorEventListener {
     }
 
     private fun getData() {
+        menuds.fillList(listOf(CartModel(name = "Makanan", description = "", currency = "", price = 0, sold = 0, type = "text", added = 0)))
+        menuds.fillList(foodResult)
+        menuds.fillList(listOf(CartModel(name = "Minuman", description = "", currency = "", price = 0, sold = 0, type = "text", added = 0)))
+        menuds.fillList(drinkResult)
+
         menusList = menuds.loadList()
         menusListName = menuds.loadName()
         searchedMenu.addAll(menusList)
