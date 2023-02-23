@@ -17,6 +17,7 @@ import com.example.majika.room.CartViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.net.SocketTimeoutException
 
 class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
@@ -39,31 +40,36 @@ class MainActivity : AppCompatActivity() {
         val quotesApi = RetrofitClient.getInstance().create(MajikaAPI::class.java)
 
         GlobalScope.launch {
-            val result = quotesApi.getMenu()
-            if (result != null) {
-                results = result.body()!!.data
+            try {
+                val result = quotesApi.getMenu()
+                if (result != null) {
+                    results = result.body()!!.data
 
-                for (res in results) {
-                    var temp = cartViewModel.getCartofDetails(
-                        name = res.name,
-                        description = res.description,
-                        currency = res.currency,
-                        price = res.price,
-                        type = res.type
-                    )
-                    if (temp == null) {
-                        cartViewModel.insertData(
+                    for (res in results) {
+                        var temp = cartViewModel.getCartofDetails(
                             name = res.name,
                             description = res.description,
                             currency = res.currency,
                             price = res.price,
-                            sold = res.sold,
-                            type = res.type,
-                            added = 0
+                            type = res.type
                         )
+                        if (temp == null) {
+                            cartViewModel.insertData(
+                                name = res.name,
+                                description = res.description,
+                                currency = res.currency,
+                                price = res.price,
+                                sold = res.sold,
+                                type = res.type,
+                                added = 0
+                            )
+                        }
                     }
                 }
+            } catch(e: Exception){
+
             }
+
         }
 
         toolbarMajika = findViewById(R.id.majikaToolbar)

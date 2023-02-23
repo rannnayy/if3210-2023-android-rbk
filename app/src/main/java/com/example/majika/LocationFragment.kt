@@ -20,6 +20,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.net.SocketTimeoutException
 
 class LocationFragment : Fragment() {
     private lateinit var toolbarMajika: Toolbar
@@ -51,21 +52,26 @@ class LocationFragment : Fragment() {
         val quotesApi = RetrofitClient.getInstance().create(MajikaAPI::class.java)
 
         GlobalScope.launch {
-            val result = quotesApi.getBranches();
-            if (result != null){
-                Log.d("BRANCHES: ", result.body()?.data.toString())
+            try{
+                val result = quotesApi.getBranches();
+                if (result != null){
+                    Log.d("BRANCHES: ", result.body()?.data.toString())
 
-                locds.fillList(result.body()?.data!!)
+                    locds.fillList(result.body()?.data!!)
+                }
+                withContext(Dispatchers.Main) {
+                    locsList = locds.loadList()
+                    val layoutManager = LinearLayoutManager(context)
+                    recyclerView = view.findViewById(R.id.LocRecyclerView)
+                    recyclerView.layoutManager = layoutManager
+                    recyclerView.setHasFixedSize(true)
+                    adapter = LocItemAdapter(locsList)
+                    recyclerView.adapter = adapter
+                }
+            } catch (e: Exception) {
+
             }
-            withContext(Dispatchers.Main) {
-                locsList = locds.loadList()
-                val layoutManager = LinearLayoutManager(context)
-                recyclerView = view.findViewById(R.id.LocRecyclerView)
-                recyclerView.layoutManager = layoutManager
-                recyclerView.setHasFixedSize(true)
-                adapter = LocItemAdapter(locsList)
-                recyclerView.adapter = adapter
-            }
+
         }
 
         return view
