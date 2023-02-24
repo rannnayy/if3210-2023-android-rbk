@@ -1,6 +1,6 @@
 package com.example.majika.adapter
 
-import android.util.Log
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,12 +11,11 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.majika.R
 import com.example.majika.model.Cart
-import com.example.majika.model.CartModel
 import com.example.majika.model.CartRecyclerViewItem
 import com.example.majika.model.Price
 import com.example.majika.room.CartViewModel
 
-class CartItemAdapter(private var carts: List<CartRecyclerViewItem>, private val cartViewModel: CartViewModel, private val onBtPayClicked: (String) -> String?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class CartItemAdapter(val context: Context, private var carts: List<CartRecyclerViewItem>, private val cartViewModel: CartViewModel, private val onBtPayClicked: (String) -> String?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     lateinit var curr: String
 
@@ -125,8 +124,14 @@ class CartItemAdapter(private var carts: List<CartRecyclerViewItem>, private val
         }
         if (holder is PriceViewHolder && item is Price) {
             holder.bind(item)
-            holder.priceBtToPay.setOnClickListener{
-                onBtPayClicked(curr + " " + item.price.toString())
+            if (curr != null) {
+                holder.priceBtToPay.setOnClickListener {
+                    onBtPayClicked(curr + " " + item.price.toString())
+                }
+            } else {
+                holder.priceBtToPay.setOnClickListener {
+                    Toast.makeText(context, "Add something to cart first!", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }

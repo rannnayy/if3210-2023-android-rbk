@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.majika.adapter.CartItemAdapter
 import com.example.majika.data.CartDatasource
-import com.example.majika.model.CartModel
 import com.example.majika.model.CartRecyclerViewItem
 import com.example.majika.room.CartDatabase
 import com.example.majika.room.CartViewModel
@@ -30,8 +29,6 @@ class ShoppingCartFragment : Fragment() {
 
     lateinit var cartDatabase: CartDatabase
     lateinit var cartViewModel: CartViewModel
-    lateinit var cartBoughtLiveData: List<CartModel>
-    lateinit var cartBought: List<CartModel>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,7 +65,7 @@ class ShoppingCartFragment : Fragment() {
 
     private fun getData() {
         cartsList = cartsds.loadList()
-        recyclerView.adapter = CartItemAdapter(cartsList, cartViewModel) {String ->
+        recyclerView.adapter = CartItemAdapter(requireContext(), cartsList, cartViewModel) { String ->
             val pay = PaymentFragment.newInstance(String)
             val transaction = fragmentManager?.beginTransaction()
             transaction?.replace(R.id.mainContainer, pay)?.addToBackStack("prevcart")?.commit().toString()
