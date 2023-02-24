@@ -241,7 +241,7 @@ class PaymentFragment : Fragment() {
                                 }.start()
                                 Handler().postDelayed({
                                     val foodbank = FoodBankFragment.newInstance()
-                                    val transaction = fragmentManager?.beginTransaction()
+                                    val transaction = fragmentManager?.beginTransaction()?.setReorderingAllowed(true)
                                     transaction?.replace(R.id.mainContainer, foodbank)?.commit()
                                 }, 5000)
                             }

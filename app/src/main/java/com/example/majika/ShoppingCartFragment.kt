@@ -67,7 +67,7 @@ class ShoppingCartFragment : Fragment() {
         cartsList = cartsds.loadList()
         recyclerView.adapter = CartItemAdapter(requireContext(), cartsList, cartViewModel) { String ->
             val pay = PaymentFragment.newInstance(String)
-            val transaction = fragmentManager?.beginTransaction()
+            val transaction = fragmentManager?.beginTransaction()?.setReorderingAllowed(true)
             transaction?.replace(R.id.mainContainer, pay)?.addToBackStack("prevcart")?.commit().toString()
         }
         recyclerView.adapter!!.notifyDataSetChanged()
