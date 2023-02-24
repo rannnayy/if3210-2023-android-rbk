@@ -8,8 +8,6 @@
     android:background="@color/colorAccent"
     android:id="@+id/constraintLayoutMain">
 
-    <include layout="@layout/majika_toolbar" android:id="@+id/majikaTB"/>
-
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavView"
         android:layout_width="0dp"
@@ -31,9 +29,8 @@
         app:navGraph="@navigation/nav_graph"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/majikaTB"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavView"
         />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
