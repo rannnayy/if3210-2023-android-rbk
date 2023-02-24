@@ -44,9 +44,7 @@ class LocationFragment : Fragment() {
 
         toolbarMajika = view.findViewById(R.id.majikaToolbar)
         toolbarMajikaText = toolbarMajika.findViewById(R.id.majikaToolbarTitle)
-        toolbarMajika.title = "Cabang"
-        toolbarMajikaText.setText(toolbarMajika.title)
-        (activity as AppCompatActivity).setSupportActionBar(toolbarMajika)
+        toolbarMajikaText.setText("Cabang")
         (activity as AppCompatActivity).getSupportActionBar()?.setDisplayShowTitleEnabled(false)
 
         val quotesApi = RetrofitClient.getInstance().create(MajikaAPI::class.java)

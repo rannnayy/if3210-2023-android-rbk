@@ -103,9 +103,7 @@ class CameraFragment : Fragment() {
 
         toolbarMajika = view.findViewById(R.id.majikaToolbar)
         toolbarMajikaText = toolbarMajika.findViewById(R.id.majikaToolbarTitle)
-        toolbarMajika.title = "Twibbon"
-        toolbarMajikaText.setText(toolbarMajika.title)
-        (activity as AppCompatActivity).setSupportActionBar(toolbarMajika)
+        toolbarMajikaText.setText("Twibbon")
         (activity as AppCompatActivity).getSupportActionBar()?.setDisplayShowTitleEnabled(false)
 
         myViewFinder = view.findViewById(R.id.viewFinder)

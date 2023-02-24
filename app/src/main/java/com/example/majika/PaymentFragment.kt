@@ -126,11 +126,8 @@ class PaymentFragment : Fragment() {
 
         toolbarMajika = view.findViewById(R.id.majikaToolbar)
         toolbarMajikaText = toolbarMajika.findViewById(R.id.majikaToolbarTitle)
-        toolbarMajika.title = "Pembayaran"
-        toolbarMajikaText.setText(toolbarMajika.title)
-        (activity as AppCompatActivity).setSupportActionBar(toolbarMajika)
-        (activity as AppCompatActivity).getSupportActionBar()?.setDisplayShowTitleEnabled(false)
-        (activity as AppCompatActivity).getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
+        toolbarMajikaText.setText("Pembayaran")
+        (activity as AppCompatActivity).getSupportActionBar()?.setDisplayShowTitleEnabled(true)
 
         myViewFinder = view.findViewById(R.id.qrViewFinder)
         tvResult = view.findViewById(R.id.qrPrice)

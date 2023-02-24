@@ -55,9 +55,7 @@ class ShoppingCartFragment : Fragment() {
 
         toolbarMajika = view.findViewById(R.id.majikaToolbar)
         toolbarMajikaText = toolbarMajika.findViewById(R.id.majikaToolbarTitle)
-        toolbarMajika.title = "Shopping Cart"
-        toolbarMajikaText.setText(toolbarMajika.title)
-        (activity as AppCompatActivity).setSupportActionBar(toolbarMajika)
+        toolbarMajikaText.setText("Shopping Cart")
         (activity as AppCompatActivity).getSupportActionBar()?.setDisplayShowTitleEnabled(false)
 
         GlobalScope.launch {
@@ -79,7 +77,7 @@ class ShoppingCartFragment : Fragment() {
         recyclerView.adapter = CartItemAdapter(cartsList, cartViewModel) {String ->
             val pay = PaymentFragment.newInstance(String)
             val transaction = fragmentManager?.beginTransaction()
-            transaction?.replace(R.id.mainContainer, pay)?.commit().toString()
+            transaction?.replace(R.id.mainContainer, pay)?.addToBackStack(null)?.commit().toString()
         }
         recyclerView.adapter!!.notifyDataSetChanged()
     }

@@ -84,10 +84,8 @@ class FoodBankFragment : Fragment(), SensorEventListener {
         toolbarMajika = view.findViewById(R.id.majikaToolbar)
         toolbarMajikaText = toolbarMajika.findViewById(R.id.majikaToolbarTitle)
         toolbarMajikaTextTemp = toolbarMajika.findViewById(R.id.majikaToolbarTemp)
-//        toolbarMajika.title = "Food Bank"
         toolbarMajikaText.setText("Food Bank")
         toolbarMajikaTextTemp.setText(temperatureRes)
-//        (activity as AppCompatActivity).setSupportActionBar(toolbarMajika)
         (activity as AppCompatActivity).getSupportActionBar()?.setDisplayShowTitleEnabled(false)
 
         searchView = view.findViewById(R.id.search)
