@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+//        setContentView(R.layout.activity_main)
 
         cartDatabase = CartDatabase.getDatabaseClient(this@MainActivity)
         cartViewModel = ViewModelProvider(this, CartViewModelFactory(cartDatabase)).get(
@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity() {
         toolbarMajikaText = toolbarMajika.findViewById(R.id.majikaToolbarTitle)
         toolbarMajika.title = "Twibbon"
         toolbarMajikaText.setText(toolbarMajika.title)
-        setSupportActionBar(toolbarMajika)
+//        setSupportActionBar(toolbarMajika)
         getSupportActionBar()?.setDisplayShowTitleEnabled(false)
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.mainContainer) as NavHostFragment

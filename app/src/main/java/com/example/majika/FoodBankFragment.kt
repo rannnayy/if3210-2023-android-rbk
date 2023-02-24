@@ -65,7 +65,11 @@ class FoodBankFragment : Fragment(), SensorEventListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sensorManager = activity?.getSystemService(SensorManager::class.java)!!
-        tempSensor = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE)
+        try{
+            tempSensor = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE)
+        } catch (e: Exception) {
+            Log.d("Sensor", "No Sensor")
+        }
     }
 
     override fun onCreateView(
@@ -83,7 +87,7 @@ class FoodBankFragment : Fragment(), SensorEventListener {
         toolbarMajika.title = "Food Bank"
         toolbarMajikaText.setText(toolbarMajika.title)
         toolbarMajikaTextTemp.setText(temperatureRes)
-        (activity as AppCompatActivity).setSupportActionBar(toolbarMajika)
+//        (activity as AppCompatActivity).setSupportActionBar(toolbarMajika)
         (activity as AppCompatActivity).getSupportActionBar()?.setDisplayShowTitleEnabled(false)
 
         searchView = view.findViewById(R.id.search)
@@ -187,6 +191,10 @@ class FoodBankFragment : Fragment(), SensorEventListener {
 
     override fun onResume() {
         super.onResume()
-        sensorManager.registerListener(this, tempSensor, SensorManager.SENSOR_DELAY_NORMAL)
+        try{
+            sensorManager.registerListener(this, tempSensor, SensorManager.SENSOR_DELAY_NORMAL)
+        } catch (e: Exception) {
+            Log.d("Sensor", "No Sensor")
+        }
     }
 }
