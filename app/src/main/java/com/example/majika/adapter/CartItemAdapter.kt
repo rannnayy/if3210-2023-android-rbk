@@ -17,7 +17,7 @@ import com.example.majika.room.CartViewModel
 
 class CartItemAdapter(val context: Context, private var carts: List<CartRecyclerViewItem>, private val cartViewModel: CartViewModel, private val onBtPayClicked: (String) -> String?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    lateinit var curr: String
+    var curr: String = ""
 
     companion object {
         const val VIEW_CART = 1
@@ -124,7 +124,7 @@ class CartItemAdapter(val context: Context, private var carts: List<CartRecycler
         }
         if (holder is PriceViewHolder && item is Price) {
             holder.bind(item)
-            if (curr != null) {
+            if (curr != "") {
                 holder.priceBtToPay.setOnClickListener {
                     onBtPayClicked(curr + " " + item.price.toString())
                 }
