@@ -88,8 +88,6 @@ class FoodBankFragment : Fragment(), SensorEventListener {
 
         searchView = view.findViewById(R.id.search)
 
-        val quotesApi = RetrofitClient.getInstance().create(MajikaAPI::class.java)
-
         GlobalScope.launch {
             foodResult = cartViewModel.getFood()!!
             drinkResult = cartViewModel.getDrink()!!
@@ -141,6 +139,7 @@ class FoodBankFragment : Fragment(), SensorEventListener {
                     }
                 })
                 recyclerView.adapter = MenuItemAdapter(searchedMenu, cartViewModel)
+                recyclerView.adapter!!.notifyDataSetChanged()
             }
         }
 
@@ -148,10 +147,37 @@ class FoodBankFragment : Fragment(), SensorEventListener {
     }
 
     private fun getData() {
-        menuds.fillList(listOf(CartModel(name = "Makanan", description = "", currency = "", price = 0, sold = 0, type = "text", added = 0)))
-        menuds.fillList(foodResult)
-        menuds.fillList(listOf(CartModel(name = "Minuman", description = "", currency = "", price = 0, sold = 0, type = "text", added = 0)))
-        menuds.fillList(drinkResult)
+        Log.d("LENGTH UPDATE", menuds.getLength().toString())
+        if (menuds.getLength() == 0) {
+            menuds.fillList(
+                listOf(
+                    CartModel(
+                        name = "Makanan",
+                        description = "",
+                        currency = "",
+                        price = 0,
+                        sold = 0,
+                        type = "text",
+                        added = 0
+                    )
+                )
+            )
+            menuds.fillList(foodResult)
+            menuds.fillList(
+                listOf(
+                    CartModel(
+                        name = "Minuman",
+                        description = "",
+                        currency = "",
+                        price = 0,
+                        sold = 0,
+                        type = "text",
+                        added = 0
+                    )
+                )
+            )
+            menuds.fillList(drinkResult)
+        }
 
         menusList = menuds.loadList()
         menusListName = menuds.loadName()

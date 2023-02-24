@@ -53,4 +53,8 @@ class MenuDatasource {
             listTypeMenu += menu.type
         }
     }
+
+    fun getLength(): Int {
+        return listNameMenu.size
+    }
 }
