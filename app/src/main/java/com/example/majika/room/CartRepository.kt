@@ -1,6 +1,5 @@
 package com.example.majika.room
 
-import androidx.lifecycle.LiveData
 import com.example.majika.model.CartModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
