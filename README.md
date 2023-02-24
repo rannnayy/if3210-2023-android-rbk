@@ -1,92 +1,173 @@
-# IF3210-2023-Android-RBK
+<a id="readme-top"></a>
+<br />
 
+<div align="center">
+  <a href="https://gitlab.informatika.org/rannnayy/if3210-2023-android-rbk">
+    <img src="screenshot/logomajika.png" alt="Logo">
+  </a>
 
+  <h3 align="center">Majika</h3>
 
-## Getting started
+  <p align="center">
+    :indonesia: Platform Pemesanan Makanan Karya Anak Bangsa :indonesia:<br>
+    Penantang G*food dan S*****food sebagai platform pemesanan makanan terbaik di Indonesia
+</div>
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+      </ul>
+    </li>
+    <li><a href="#usage">Usage</a></li>
+    <li><a href="#contributions">Contributions</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ol>
+</details>
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+<!-- ABOUT THE PROJECT -->
 
-## Add your files
+## About The Project
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+Majika adalah sebuah mobile app berbasis android yang berfungsi untuk membantu user dalam mencari dan memesan makanan. App tersebut kami buat untuk ~memenuhi Tugas Besar 1 IF3210 Teknik Informatika ITB~ meningkatkan kualitas layanan pemesanan makanan di Indonesia. Berbeda dari aplikasi pemesanan makanan lainnya seperti G\*food dan S**\***food, Majika dapat membantu user untuk memesan makanan dari seluruh belahan dunia ~dikirimnya gimana sih bomat yg penting bisa mesennya~. Karena fitur tersebut, 9 dari 10 dokter gigi merekomendasikan Majika sebagai aplikasi pemesanan makanan ~terburuk~ terbaik di Indonesia.
 
-```
-cd existing_repo
-git remote add origin https://gitlab.informatika.org/rannnayy/if3210-2023-android-rbk.git
-git branch -M main
-git push -uf origin main
-```
+Sebagai aplikasi mobile yang ~tidak~ direkomedasikan oleh 9 dari 10 dokter gigi, Majika memiliki fitur yang sangat ~tidak~ lengkap dan keren. User tidak perlu login terlebih dahulu untuk dapat memesan makanan. User dapat langsung menggunakan aplikasi. User dapat mencari makanan dan minuman yang mereka inginkan dan mereka dapat langsung memasukannya ke dalam keranjang. Setelah selesai memilih, user dapat masuk ke laman pembayaran untuk melakukan pembayaran. Pembayaran dilakukan dengan melakukan scan barcode dan jika user menyeken barcode yang benar, maka secara ajaib biaya makanan tersebut lunas entah dibayar siapa :lol:. Setelah itu, user dapat mengambil makanan tersebut melalui cabang terdekat yang dapat dilihat di menu cabang.
 
-## Integrate with your tools
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-- [ ] [Set up project integrations](https://gitlab.informatika.org/rannnayy/if3210-2023-android-rbk/-/settings/integrations)
+### Built With
 
-## Collaborate with your team
+- Kotlin Native
+- Android Studio
+- Libraries:
+  1. CameraX
+  2. ZXing
+  3. Retrofit
+  4. Room
+  5. Coroutines
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Test and Deploy
+<!-- GETTING STARTED -->
 
-Use the built-in continuous integration in GitLab.
+## Getting Started
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+Tanpa Berlama-lama inilah cara menjalankan web app
 
-***
+### Prerequisites
 
-# Editing this README
+- Android Studio
+  ```sh
+  https://developer.android.com/studio
+  ```
+- Otak
+  ```sh
+  https://www.google.com/search?q=otak
+  ```
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
+### Installation
 
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+1. Clone Repo ini dengan menggunakan cmd pada directory yang diinginkan
+   ```sh
+   C:\Users\MerekLaptop>
+   git clone https://gitlab.informatika.org/rannnayy/if3210-2023-android-rbk
+   ```
+2. Buka Directory tempat file di clone
+   ```sh
+   C:\Users\MerekLaptop> cd if3210-2023-android-rbk
+   C:\Users\MerekLaptop\if3210-2023-android-rbk>
+   ```
+3. Buka Android Studio pada directory tersebut
+4. Download data pada tautan berikut:
+   ```sh
+   https://drive.google.com/drive/folders/1wvzs-EiE9iQ3ysn3RIIBA9D_hFUQeuF4
+   ```
+5. Jalankan data pada terminal (caranya cari sendiri ya ~karna saya malas nulisnya~ biar pinter)
+6. Buka RetrofitClient.kt pada directory app/src/main/java/com/example/majika/retrofit dan ubah BASE_URL menjadi IP Address yang digunakan pada terminal (cari IP Address dengan ipconfig pada cmd + otak + google)
+7. Run app pada Android Studio detailnya cari sendiri ya ~karna saya malas nulisnya~ biar pinter
+8. Enjoy
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+<!-- USAGE EXAMPLES -->
 
 ## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+0. Splash Screen
+   <img src="screenshot/SplashScreen.jpg" alt="Splash Screen">
+1. Camera
+   <img src="screenshot/LamanTwibbon.png" alt="Camera Page">
+   <img src="screenshot/AmbilFoto.png" alt="Camera Capturing Image">
+   <img src="screenshot/SavedPhoto.png" alt="Saved Image">
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+2. Cabang
+   <img src="screenshot/LamanCabang.png" alt="Branch Page">
+   <img src="screenshot/MembukaMaps.png" alt="Open branch in Maps">
+   <img src="screenshot/MembukaGmail.png" alt="Open Mail">
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+3. Menu
+   <img src="screenshot/LamanMenu.png" alt="Menu Page">
+   <img src="screenshot/SearchFood.png" alt="Search Menu">
+   <img src="screenshot/AddingFood.png" alt="Add Menu">
+   <img src="screenshot/ChangingTemperature.png" alt="Temperature Sensor Before">
+   <img src="screenshot/ChangingTemperature (2).png" alt="Temperature Sensor After">
+   <img src="screenshot/LamanMenuResponsive.png" alt="Responsive Menu Page">
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+4. Keranjang
+   <img src="screenshot/album.png" alt="Shopping Cart Page">
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+5. Scan Barcode
+   <img src="screenshot/BerhasilBayar.png" alt="Successful Scan">
+   <img src="screenshot/gagalBayar.png" alt="Failed Scan">
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+<!-- CONTRIBUTING -->
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+## Contributions
+
+| feature            | 13520019           | 13520034           | 13520040           |
+| ------------------ | ------------------ | ------------------ | ------------------ |
+| Twibbon Page       | :heavy_check_mark: | :heavy_check_mark: |                    |
+| Branch Page        | :heavy_check_mark: |                    | :heavy_check_mark: |
+| Menu Page          | :heavy_check_mark: |                    |                    |
+| Cart Page          | :heavy_check_mark: |                    | :heavy_check_mark: |
+| Payment Page       | :heavy_check_mark: | :heavy_check_mark: |                    |
+| Responsive Page    | :heavy_check_mark: |                    |                    |
+| Navigation Bar     | :heavy_check_mark: |                    |                    |
+| Camera             |                    | :heavy_check_mark: | :heavy_check_mark: |
+| Map                |                    | :heavy_check_mark: | :heavy_check_mark: |
+| Email              |                    | :heavy_check_mark: | :heavy_check_mark: |
+| Temperature        |                    | :heavy_check_mark: | :heavy_check_mark: |
+| QR Scanner         | :heavy_check_mark: | :heavy_check_mark: |                    |
+| Database           | :heavy_check_mark: |                    | :heavy_check_mark: |
+| Offline Capability | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- LICENSE -->
 
 ## License
-For open source projects, say how it is licensed.
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+Distributed under the NG License. See you again for more information.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- CONTACT -->
+
+## Contact
+
+| Name                      | Contact                     | Github                                                            | Estimated Time For This Project |
+| ------------------------- | --------------------------- | ----------------------------------------------------------------- | ------------------------------- |
+| Maharani Ayu Putri Irawan | 13520019@std.stei.itb.ac.id | <a href="https://www.github.com/rannnayy">@rannnayy</a>           | 83 hours                        |
+| Bryan Bernigen            | 13520034@std.stei.itb.ac.id | <a href="https://www.github.com/bryanbernigen">@bryanbernigen</a> | 64 hours                        |
+| Ng Kyle                   | 13520040@std.stei.itb.ac.id | <a href="https://www.github.com/Nk-Kyle">@Nk-Kyle</a>             | 67 hours                        |
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
