@@ -17,7 +17,6 @@ import com.example.majika.room.CartViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import java.net.SocketTimeoutException
 
 class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController

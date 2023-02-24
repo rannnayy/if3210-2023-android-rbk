@@ -1,7 +1,6 @@
 package com.example.majika
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -20,7 +19,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.net.SocketTimeoutException
 
 class LocationFragment : Fragment() {
     private lateinit var toolbarMajika: Toolbar

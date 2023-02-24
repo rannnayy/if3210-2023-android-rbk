@@ -21,10 +21,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.majika.adapter.MenuItemAdapter
 import com.example.majika.data.MenuDatasource
 import com.example.majika.model.CartModel
-import com.example.majika.model.Menu
 import com.example.majika.model.MenuRecyclerViewItem
 import com.example.majika.retrofit.MajikaAPI
-import com.example.majika.retrofit.MenuData
 import com.example.majika.retrofit.RetrofitClient
 import com.example.majika.room.CartDatabase
 import com.example.majika.room.CartViewModel

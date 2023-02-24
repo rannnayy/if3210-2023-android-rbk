@@ -30,28 +30,12 @@ import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [CameraFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class CameraFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
     private lateinit var toolbarMajika: Toolbar
     private lateinit var toolbarMajikaText: TextView
 
     private var preview: Preview? = null
     private var imageCapture: ImageCapture? = null
-//    private var imageAnalyzer: ImageAnalysis? = null
     private var camera: Camera? = null
     private var currentCamera: Int = CameraSelector.LENS_FACING_FRONT
     private lateinit var myViewFinder: PreviewView
@@ -66,19 +50,8 @@ class CameraFragment : Fragment() {
         safeContext = context
     }
 
-//    private fun getStatusBarHeight(): Int {
-//        val resourceId = safeContext.resources.getIdentifier("status_bar_height", "dimen", "android")
-//        return if (resourceId > 0) {
-//            safeContext.resources.getDimensionPixelSize(resourceId)
-//        } else 0
-//    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
@@ -140,15 +113,6 @@ class CameraFragment : Fragment() {
 
             imageCapture = ImageCapture.Builder().build()
 
-//            imageAnalyzer = ImageAnalysis.Builder().build().apply {
-//                setAnalyzer(Executors.newSingleThreadExecutor(), CornerAnalyzer {
-//                    val bitmap = viewFinder.bitmap
-//                    val img = Mat()
-//                    Utils.bitmapToMat(bitmap, img)
-//                    bitmap?.recycle()
-//                    // Do image analysis here if you need bitmap
-//                })
-//            }
             // Select back camera
             val cameraSelector = CameraSelector.Builder().requireLensFacing(currentCamera).build()
 
@@ -270,24 +234,4 @@ class CameraFragment : Fragment() {
         }
         return if (mediaDir != null && mediaDir.exists()) mediaDir else activity?.filesDir!!
     }
-
-
-//    private class CornerAnalyzer(private val listener: CornersListener) : ImageAnalysis.Analyzer {
-//
-//        private fun ByteBuffer.toByteArray(): ByteArray {
-//            rewind()    // Rewind the buffer to zero
-//            val data = ByteArray(remaining())
-//            get(data)   // Copy the buffer into a byte array
-//            return data // Return the byte array
-//        }
-//
-//        @SuppressLint("UnsafeExperimentalUsageError")
-//        override fun analyze(imageProxy: ImageProxy) {
-//            if (!isOffline) {
-//                listener()
-//            }
-//            imageProxy.close() // important! if it is not closed it will only run once
-//        }
-//
-//    }
 }

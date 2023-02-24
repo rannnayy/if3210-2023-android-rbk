@@ -23,11 +23,8 @@ import androidx.camera.view.PreviewView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.majika.data.CartDatasource
-import com.example.majika.model.Cart
-import com.example.majika.model.CartRecyclerViewItem
 import com.example.majika.retrofit.MajikaAPI
 import com.example.majika.retrofit.RetrofitClient
 import com.example.majika.room.CartDatabase
@@ -88,6 +85,7 @@ class PaymentFragment : Fragment() {
     private var price = "0"
     private lateinit var toolbarMajika: Toolbar
     private lateinit var toolbarMajikaText: TextView
+    private lateinit var toolbarMajikaBack: ImageView
 
     private var preview: Preview? = null
     private lateinit var myViewFinder: PreviewView
@@ -126,7 +124,11 @@ class PaymentFragment : Fragment() {
 
         toolbarMajika = view.findViewById(R.id.majikaToolbar)
         toolbarMajikaText = toolbarMajika.findViewById(R.id.majikaToolbarTitle)
+        toolbarMajikaBack = toolbarMajika.findViewById(R.id.majikaToolbarBack)
         toolbarMajikaText.setText("Pembayaran")
+        toolbarMajikaBack.setOnClickListener {
+            fragmentManager?.popBackStack()
+        }
         (activity as AppCompatActivity).getSupportActionBar()?.setDisplayShowTitleEnabled(true)
 
         myViewFinder = view.findViewById(R.id.qrViewFinder)

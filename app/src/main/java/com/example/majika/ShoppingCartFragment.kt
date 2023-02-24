@@ -1,7 +1,6 @@
 package com.example.majika
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,22 +8,17 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.majika.adapter.CartItemAdapter
-import com.example.majika.adapter.MenuItemAdapter
 import com.example.majika.data.CartDatasource
 import com.example.majika.model.CartModel
 import com.example.majika.model.CartRecyclerViewItem
-import com.example.majika.model.Menu
 import com.example.majika.room.CartDatabase
 import com.example.majika.room.CartViewModel
 import com.example.majika.room.CartViewModelFactory
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.*
 
 class ShoppingCartFragment : Fragment() {
     private lateinit var toolbarMajika: Toolbar
@@ -77,7 +71,7 @@ class ShoppingCartFragment : Fragment() {
         recyclerView.adapter = CartItemAdapter(cartsList, cartViewModel) {String ->
             val pay = PaymentFragment.newInstance(String)
             val transaction = fragmentManager?.beginTransaction()
-            transaction?.replace(R.id.mainContainer, pay)?.addToBackStack(null)?.commit().toString()
+            transaction?.replace(R.id.mainContainer, pay)?.addToBackStack("prevcart")?.commit().toString()
         }
         recyclerView.adapter!!.notifyDataSetChanged()
     }
